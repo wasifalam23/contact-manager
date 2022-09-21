@@ -6,11 +6,12 @@ const router = express.Router();
 router
   .route('/')
   .get(contactController.getAllContacts)
-  .post(contactController.createContact);
+  .post(contactController.uploadContactPhoto, contactController.createContact);
 
 router
   .route('/:id')
   .get(contactController.getContact)
-  .patch(contactController.updateContact);
+  .patch(contactController.updateContact)
+  .delete(contactController.deleteContact);
 
 module.exports = router;

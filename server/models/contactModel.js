@@ -1,9 +1,14 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
 
 const contactSchema = new mongoose.Schema({
-  name: {
+  firstName: {
     type: String,
-    required: [true, 'A contact must have a name'],
+    required: [true, 'A contact must have a first name'],
+  },
+
+  lastName: {
+    type: String,
   },
 
   phone: {
@@ -16,6 +21,11 @@ const contactSchema = new mongoose.Schema({
     type: String,
     required: [true, 'A contact must have an email'],
     unique: true,
+    validate: validator.isEmail,
+  },
+
+  photo: {
+    type: String,
   },
 
   dateOfBirth: {
