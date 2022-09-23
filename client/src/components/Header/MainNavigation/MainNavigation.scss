@@ -1,0 +1,21 @@
+@import '../../../index.scss';
+
+.main-navigation {
+  &__list {
+    display: flex;
+    list-style: none;
+    gap: 3.2rem;
+  }
+
+  &__link:link,
+  &__link:visited {
+    display: inline-block;
+    font-size: 1.6rem;
+    text-decoration: none;
+    color: $color-white;
+  }
+
+  // &__link:hover,
+  // &__link:active {
+  // }
+}

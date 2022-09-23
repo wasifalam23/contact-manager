@@ -1,0 +1,14 @@
+@import '../../index.scss';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $color-dark-gray;
+  padding: 1.7rem 8rem 1.7rem 2rem;
+
+  &__logo {
+    font-size: 2rem;
+    color: $color-white;
+  }
+}
