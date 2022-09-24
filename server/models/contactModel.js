@@ -9,6 +9,7 @@ const contactSchema = new mongoose.Schema({
 
   lastName: {
     type: String,
+    required: [true, 'A contact must have a last name'],
   },
 
   phone: {

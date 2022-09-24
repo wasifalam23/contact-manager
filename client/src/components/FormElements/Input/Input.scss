@@ -12,7 +12,7 @@
     font-weight: $font-medium;
   }
 
-  &__input {
+  &__box input {
     padding: 1rem 2rem;
     border-radius: $border-radius-5px;
     border: 1px solid #adb5bd;
@@ -20,7 +20,19 @@
     font-size: 1.6rem;
   }
 
-  &__input:focus {
+  &__box input:focus {
     outline: none;
+    // border-color: #240370;
+    // background-color: #e0d4fd;
+  }
+
+  &__box--invalid input {
+    border: 1px solid #b40e0e;
+    background-color: #fddddd;
+  }
+
+  &__box--invalid input:focus {
+    border-color: #ff8800;
+    background-color: #fbe8d2;
   }
 }
