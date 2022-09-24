@@ -4,13 +4,15 @@ import Button from '../Button/Button';
 
 const Container = (props) => {
   return (
-    <main className="container">
+    <div className="container">
       <header className="container__header">
         <h3 className="container__header--title">{props.title}</h3>
         {props.btnText && <Button btnText={props.btnText} />}
       </header>
-      {props.children}
-    </main>
+      <main className={`container__content ${props.contentClass}`}>
+        {props.children}
+      </main>
+    </div>
   );
 };
 

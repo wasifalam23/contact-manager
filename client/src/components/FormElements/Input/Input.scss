@@ -1,0 +1,26 @@
+@import '../../../index.scss';
+
+.input {
+  &__box {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  &__label {
+    font-size: 1.2rem;
+    font-weight: $font-medium;
+  }
+
+  &__input {
+    padding: 1rem 2rem;
+    border-radius: $border-radius-5px;
+    border: 1px solid #adb5bd;
+    max-width: 100%;
+    font-size: 1.6rem;
+  }
+
+  &__input:focus {
+    outline: none;
+  }
+}

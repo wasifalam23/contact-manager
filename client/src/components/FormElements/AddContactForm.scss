@@ -2,15 +2,33 @@
 
 .form-control {
   &__container {
+    // max-width: 65%;
+    // margin: 0 auto;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 4rem;
+    gap: 6rem;
+  }
+
+  &__image--upload {
+    align-self: flex-start;
+  }
+
+  &__left,
+  &__right {
+    display: flex;
+    flex-direction: column;
+    gap: 2.8rem;
   }
 
   &__input--holders {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap: 6rem;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 10rem;
+  }
+
+  &__save--btn {
+    grid-column: 2/-1;
+    margin-top: 2rem;
+    justify-self: end;
   }
 }
