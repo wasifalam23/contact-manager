@@ -6,7 +6,10 @@ import Input from './Input/Input';
 import './AddContactForm.scss';
 import Button from '../../utils/Button/Button';
 
-const nameValidate = (value) => value !== '';
+const textValidate = (value) => value.trim() !== '';
+const emailValidate = (value) => value.includes('@');
+const phoneValidate = (value) =>
+  value.trim().length >= 10 && value.trim().length <= 13;
 
 const AddContactForm = () => {
   const {
@@ -16,17 +19,77 @@ const AddContactForm = () => {
     hasError: firstNameHasError,
     isValid: firstNameIsValid,
     reset: fristNameReset,
-  } = useForm(nameValidate);
+  } = useForm(textValidate);
+
+  const {
+    value: enteredLastName,
+    valueChangeHandler: lastNameChangeHandler,
+    valueBlurHandler: lastNameBlurHandler,
+    hasError: lastNameHasError,
+    isValid: lastNameIsValid,
+    reset: lastNameReset,
+  } = useForm(textValidate);
+
+  const {
+    value: enteredDate,
+    valueChangeHandler: dateChangeHandler,
+    reset: dateReset,
+  } = useForm(textValidate);
+
+  const {
+    value: enteredEmail,
+    valueChangeHandler: emailChangeHandler,
+    valueBlurHandler: emailBlurHandler,
+    hasError: emailHasError,
+    isValid: emailIsValid,
+    reset: emailReset,
+  } = useForm(emailValidate);
+
+  const {
+    value: enteredPhone,
+    valueChangeHandler: phoneChangeHandler,
+    valueBlurHandler: phoneBlurHandler,
+    hasError: phoneHasError,
+    isValid: phoneIsValid,
+    reset: phoneReset,
+  } = useForm(phoneValidate);
+
+  const {
+    value: enteredAddress,
+    valueChangeHandler: addressChangeHandler,
+    reset: addressReset,
+  } = useForm(textValidate);
+
+  let formIsValid = false;
+
+  if (firstNameIsValid && lastNameIsValid && emailIsValid && phoneIsValid) {
+    formIsValid = true;
+  }
 
   const formSubmissionHandler = (e) => {
     e.preventDefault();
 
-    if (!firstNameIsValid) {
+    if (!formIsValid) {
       return;
     }
 
-    console.log(enteredFirstName);
+    const data = {
+      firstName: enteredFirstName,
+      lastName: enteredLastName,
+      dateOfBirth: enteredDate,
+      email: enteredEmail,
+      phone: enteredPhone,
+      address: enteredAddress,
+    };
+
+    console.log(data);
+
     fristNameReset();
+    lastNameReset();
+    emailReset();
+    dateReset();
+    phoneReset();
+    addressReset();
   };
 
   return (
@@ -39,19 +102,63 @@ const AddContactForm = () => {
               id="first-name"
               label="First Name"
               type="text"
+              inputRequired
               value={enteredFirstName}
               onChange={firstNameChangedHandler}
               onBlur={firstNameBlurHandler}
               inputHasError={firstNameHasError}
+              errorMsg="First Name must not be empty."
             />
-            <Input id="last-name" label="Last Name" type="text" />
-            <Input id="birth-date" label="Date Of Birth" type="date" />
+            <Input
+              id="last-name"
+              label="Last Name"
+              type="text"
+              inputRequired
+              value={enteredLastName}
+              onChange={lastNameChangeHandler}
+              onBlur={lastNameBlurHandler}
+              inputHasError={lastNameHasError}
+              errorMsg="Last Name must not be empty."
+            />
+            <Input
+              id="birth-date"
+              label="Date of Birth"
+              type="date"
+              value={enteredDate}
+              onChange={dateChangeHandler}
+            />
           </div>
 
           <div className="form-control__right">
-            <Input id="email" label="Email" type="email" />
-            <Input id="phone" label="Phone No." type="text" />
-            <Input id="address" label="Address" type="text" />
+            <Input
+              id="email"
+              label="Email"
+              type="email"
+              inputRequired
+              value={enteredEmail}
+              onChange={emailChangeHandler}
+              onBlur={emailBlurHandler}
+              inputHasError={emailHasError}
+              errorMsg="Invalid email Address."
+            />
+            <Input
+              id="phone"
+              label="Phone"
+              type="text"
+              inputRequired
+              value={enteredPhone}
+              onChange={phoneChangeHandler}
+              onBlur={phoneBlurHandler}
+              inputHasError={phoneHasError}
+              errorMsg="Phone number should exist between 10 to 13 characters."
+            />
+            <Input
+              id="address"
+              label="Address"
+              type="text"
+              value={enteredAddress}
+              onChange={addressChangeHandler}
+            />
           </div>
           <Button
             type="submit"

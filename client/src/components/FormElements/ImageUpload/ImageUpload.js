@@ -5,8 +5,7 @@ import './ImageUpload.scss';
 const ImageUpload = (props) => {
   const [file, setFile] = useState();
   const [previewUrl, setPreviewUrl] = useState();
-
-  // console.log(previewUrl);
+  const [isValid, setIsValid] = useState(false);
 
   const filePickerRef = useRef();
 
@@ -25,9 +24,13 @@ const ImageUpload = (props) => {
   }, [file]);
 
   const pickedHandler = (e) => {
+    let pickedFile;
     if (e.target.files && e.target.files.length === 1) {
-      const pickedFile = e.target.files[0];
+      pickedFile = e.target.files[0];
       setFile(pickedFile);
+      setIsValid(true);
+    } else {
+      setIsValid(false);
     }
   };
 
