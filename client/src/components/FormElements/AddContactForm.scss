@@ -21,14 +21,32 @@
   }
 
   &__input--holders {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-column-gap: 10rem;
+  }
+
+  &__input-required--text {
+    position: absolute;
+    top: -2.5rem;
+    color: $color-red-deep;
+    font-size: 1.1rem;
+    font-weight: $font-medium;
   }
 
   &__save--btn {
     grid-column: 2/-1;
     margin-top: 2rem;
     justify-self: end;
+  }
+
+  &__save--btn:disabled,
+  &__save--btn:disabled:hover,
+  &__save--btn:disabled:active {
+    background-color: $color-gray-light;
+    color: #858585;
+    border-color: $color-gray-light;
+    cursor: not-allowed;
   }
 }

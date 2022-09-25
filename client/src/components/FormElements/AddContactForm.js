@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import useForm from '../../hooks/form-hook';
 import ImageUpload from './ImageUpload/ImageUpload';
@@ -12,6 +14,8 @@ const phoneValidate = (value) =>
   value.trim().length >= 10 && value.trim().length <= 13;
 
 const AddContactForm = () => {
+  const [imageFile, setImageFile] = useState();
+
   const {
     value: enteredFirstName,
     valueChangeHandler: firstNameChangedHandler,
@@ -66,6 +70,10 @@ const AddContactForm = () => {
     formIsValid = true;
   }
 
+  const imageUploadHandler = (imgFile, isValid) => {
+    setImageFile(imgFile);
+  };
+
   const formSubmissionHandler = (e) => {
     e.preventDefault();
 
@@ -74,6 +82,7 @@ const AddContactForm = () => {
     }
 
     const data = {
+      image: imageFile,
       firstName: enteredFirstName,
       lastName: enteredLastName,
       dateOfBirth: enteredDate,
@@ -84,6 +93,7 @@ const AddContactForm = () => {
 
     console.log(data);
 
+    setImageFile();
     fristNameReset();
     lastNameReset();
     emailReset();
@@ -95,8 +105,21 @@ const AddContactForm = () => {
   return (
     <form onSubmit={formSubmissionHandler}>
       <dir className="form-control__container">
-        <ImageUpload className="form-control__image--upload" />
+        <ImageUpload
+          className="form-control__image--upload"
+          onInput={imageUploadHandler}
+          id="image"
+        />
         <div className="form-control__input--holders">
+          {/* {
+            <p className="form-control__input-required--text">
+              <FontAwesomeIcon
+                className="input__error--icon"
+                icon={faExclamationTriangle}
+              />
+              Please fill out the required fields.
+            </p>
+          } */}
           <div className="form-control__left">
             <Input
               id="first-name"
@@ -128,7 +151,6 @@ const AddContactForm = () => {
               onChange={dateChangeHandler}
             />
           </div>
-
           <div className="form-control__right">
             <Input
               id="email"
@@ -150,7 +172,7 @@ const AddContactForm = () => {
               onChange={phoneChangeHandler}
               onBlur={phoneBlurHandler}
               inputHasError={phoneHasError}
-              errorMsg="Phone number should exist between 10 to 13 characters."
+              errorMsg="Enter a valid phone no. within 10 to 13 characters."
             />
             <Input
               id="address"
@@ -164,6 +186,7 @@ const AddContactForm = () => {
             type="submit"
             className="form-control__save--btn"
             btnText="Save Contact"
+            disabled={!formIsValid}
           />
         </div>
       </dir>

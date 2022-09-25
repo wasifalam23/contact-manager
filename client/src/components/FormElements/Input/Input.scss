@@ -14,7 +14,7 @@
   }
 
   &__required {
-    color: $color-red-danger;
+    color: $color-red-deep;
     position: absolute;
     margin-left: 0.1rem;
     margin-top: -0.1rem;
@@ -23,7 +23,7 @@
   &__box input {
     padding: 1rem 2rem;
     border-radius: $border-radius-5px;
-    border: 1px solid #adb5bd;
+    border: 1px solid $color-gray-dark-2;
     max-width: 100%;
     font-size: 1.6rem;
   }
@@ -31,18 +31,18 @@
   &__box input:focus {
     outline: none;
 
-    border-color: $color-dark-gray;
-    background-color: $color-light-extra-gray;
+    border-color: $color-gray-dark;
+    background-color: $color-gray-light-extra;
   }
 
   &__box--invalid input {
-    border: 1px solid $color-red-danger;
+    border: 1px solid $color-red-medium;
     background-color: $color-red-light;
   }
 
   &__box--invalid input:focus {
-    border-color: #f783ac;
-    background-color: #ffdeeb;
+    border-color: $color-pink-light;
+    background-color: $color-pink-light-extra;
   }
 
   &__error--icon {
@@ -53,7 +53,7 @@
   &__error--msg {
     position: absolute;
     bottom: -1.6rem;
-    color: #e03131;
+    color: $color-red-deep;
     font-size: 1rem;
     font-weight: $font-medium;
   }
