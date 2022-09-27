@@ -1,0 +1,16 @@
+@import '../index.scss';
+
+.contact {
+  &__container {
+    max-width: 90rem;
+  }
+
+  &__count {
+    font-size: 1.4rem;
+    font-weight: $font-medium;
+  }
+}
+
+.add-contact__container {
+  max-width: 110rem;
+}

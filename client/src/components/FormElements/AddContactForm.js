@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import useForm from '../../hooks/form-hook';
 import ImageUpload from './ImageUpload/ImageUpload';
