@@ -5,6 +5,7 @@ import ImageUpload from './ImageUpload/ImageUpload';
 import Input from './Input/Input';
 import './AddContactForm.scss';
 import Button from '../../utils/Button/Button';
+import useHttp from '../../hooks/http-hook';
 
 const textValidate = (value) => value.trim() !== '';
 const emailValidate = (value) => value.includes('@');
@@ -12,6 +13,8 @@ const phoneValidate = (value) =>
   value.trim().length >= 10 && value.trim().length <= 13;
 
 const AddContactForm = () => {
+  const { sendRequest: postData, isLoading, error } = useHttp();
+
   const [imageFile, setImageFile] = useState();
 
   const {
@@ -79,17 +82,22 @@ const AddContactForm = () => {
       return;
     }
 
-    const data = {
-      image: imageFile,
-      firstName: enteredFirstName,
-      lastName: enteredLastName,
-      dateOfBirth: enteredDate,
-      email: enteredEmail,
-      phone: enteredPhone,
-      address: enteredAddress,
-    };
+    const formData = new FormData();
+    formData.append('photo', imageFile);
+    formData.append('firstName', enteredFirstName);
+    formData.append('lastName', enteredLastName);
+    formData.append('dateOfBirth', enteredDate);
+    formData.append('phone', enteredPhone);
+    formData.append('email', enteredEmail);
+    formData.append('address', enteredAddress);
 
-    console.log(data);
+    console.log(error);
+
+    postData({
+      url: 'http://localhost:3000/api/v1/contacts',
+      method: 'POST',
+      body: formData,
+    });
 
     setImageFile();
     fristNameReset();
@@ -98,6 +106,18 @@ const AddContactForm = () => {
     dateReset();
     phoneReset();
     addressReset();
+
+    // const data = {
+    //   image: imageFile,
+    //   firstName: enteredFirstName,
+    //   lastName: enteredLastName,
+    //   dateOfBirth: enteredDate,
+    //   email: enteredEmail,
+    //   phone: enteredPhone,
+    //   address: enteredAddress,
+    // };
+
+    // console.log(data);
   };
 
   return (

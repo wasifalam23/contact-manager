@@ -39,10 +39,8 @@ const ContactItem = (props) => {
 
           <div className="contact-item__content--holder">
             <div className="contact-item__content--left">
-              <p className="contact-item__address">793 Adams Drive</p>
-              <p className="contact-item__birth-info">
-                Born on 18th Jan 2021 and age is 26
-              </p>
+              <p className="contact-item__address">{props.address}</p>
+              <p className="contact-item__birth-info">{props.dateOfBirth}</p>
             </div>
 
             <div className="contact-item__content--right">
