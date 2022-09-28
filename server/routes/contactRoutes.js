@@ -6,7 +6,11 @@ const router = express.Router();
 router
   .route('/')
   .get(contactController.getAllContacts)
-  .post(contactController.uploadContactPhoto, contactController.createContact);
+  .post(
+    contactController.uploadContactPhoto,
+    contactController.resizeContactPhoto,
+    contactController.createContact
+  );
 
 router
   .route('/:id')

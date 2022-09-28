@@ -27,14 +27,11 @@ const contactSchema = new mongoose.Schema({
 
   photo: {
     type: String,
+    default: 'default.png',
   },
 
   dateOfBirth: {
     type: Date,
-  },
-
-  occupation: {
-    type: String,
   },
 
   address: {
