@@ -6,6 +6,7 @@ const ContactsList = () => {
   return (
     <ul className="contact-list__container">
       <ContactItem />
+      <ContactItem />
     </ul>
   );
 };

@@ -6,6 +6,7 @@ import {
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import erikImg from '../../../assets/erik.jpg';
 
 import './ContactItem.scss';
 
@@ -25,7 +26,14 @@ const ContactItem = () => {
         </header>
 
         <main className="contact-item__content--main">
-          <h3 className="contact-item__name">John Doe</h3>
+          <div className="contact-item__name-avatar--holder">
+            <img
+              className="contact-item__avatar"
+              src={erikImg}
+              alt="contact-avatar"
+            />
+            <h3 className="contact-item__name">John Doe</h3>
+          </div>
 
           <div className="contact-item__content--holder">
             <div className="contact-item__content--left">
