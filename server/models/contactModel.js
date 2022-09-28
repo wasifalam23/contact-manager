@@ -4,11 +4,13 @@ const validator = require('validator');
 const contactSchema = new mongoose.Schema({
   firstName: {
     type: String,
+    trim: true,
     required: [true, 'A contact must have a first name'],
   },
 
   lastName: {
     type: String,
+    trim: true,
     required: [true, 'A contact must have a last name'],
   },
 
@@ -20,9 +22,10 @@ const contactSchema = new mongoose.Schema({
 
   email: {
     type: String,
-    required: [true, 'A contact must have an email'],
+    required: [true, 'Please provide your email'],
     unique: true,
-    validate: validator.isEmail,
+    lowercase: true,
+    validate: [validator.isEmail, 'Please Provide a valid email'],
   },
 
   photo: {
