@@ -7,10 +7,10 @@ import Header from './components/Header/Header';
 import AddContact from './pages/AddContact';
 import Contacts from './pages/Contacts';
 import useHttp from './hooks/http-hook';
+import ToastBar from './utils/ToastBar/ToastBar';
 
 const App = () => {
   const { sendRequest: fetchContacts, isLoading, error } = useHttp();
-  console.log(error);
 
   const dispatch = useDispatch();
 
@@ -28,6 +28,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Header />
+      {isLoading && <ToastBar type="loading" />}
       <Routes>
         <Route path="/" element={<Contacts />} />
         <Route path="/addContact" element={<AddContact />} />

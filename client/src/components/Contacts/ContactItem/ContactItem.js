@@ -10,7 +10,7 @@ import erikImg from '../../../assets/erik.jpg';
 
 import './ContactItem.scss';
 
-const ContactItem = () => {
+const ContactItem = (props) => {
   return (
     <li className="contact-item__container--main">
       <div className="contact-item__container">
@@ -29,10 +29,12 @@ const ContactItem = () => {
           <div className="contact-item__name-avatar--holder">
             <img
               className="contact-item__avatar"
-              src={erikImg}
+              src={`http://localhost:3000/contacts/${props.img}`}
               alt="contact-avatar"
             />
-            <h3 className="contact-item__name">John Doe</h3>
+            <h3 className="contact-item__name">
+              {props.firstName} {props.lastName}
+            </h3>
           </div>
 
           <div className="contact-item__content--holder">
@@ -49,14 +51,14 @@ const ContactItem = () => {
                   className="contact-item__fa-icon--phone"
                   icon={faEnvelope}
                 />
-                <p className="contact-item__phone">+919735771084</p>
+                <p className="contact-item__phone">{props.phone}</p>
               </div>
               <div className="contact-item__icon-item--holder">
                 <FontAwesomeIcon
                   className="contact-item__fa-icon--email"
                   icon={faPhone}
                 />
-                <p className="contact-item__email">johndoe88@gmail.com</p>
+                <p className="contact-item__email">{props.email}</p>
               </div>
             </div>
           </div>
