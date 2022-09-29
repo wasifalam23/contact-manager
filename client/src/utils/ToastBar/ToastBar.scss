@@ -2,20 +2,58 @@
 
 .toast-bar {
   &__container {
-    // width: 20rem;
-    // height: 5rem;
     position: fixed;
     border-radius: $border-radius-5px;
-    // background-color: #2f9e44;
-    background-color: $color-pink-light;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    top: 4.5rem;
+    top: 3rem;
     left: 50%;
     transform: translate(-50%);
     padding: 2rem 4rem;
     transition: all 0.8s ease-in-out;
+  }
+
+  &__loading {
+    background-color: $color-pink-light;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__error {
+    background-color: $color-red-medium;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &__error--icon {
+    font-size: 1.6rem;
+    color: $color-black;
+    margin-bottom: 0.09rem;
+  }
+
+  &__error--text {
+    font-size: 1.2rem;
+    font-weight: $font-medium;
+    color: $color-black;
+  }
+
+  &__success {
+    background-color: $color-green-success;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &__success--icon {
+    font-size: 1.6rem;
+    color: $color-white;
+    margin-bottom: 0.09rem;
+  }
+
+  &__success--text {
+    font-size: 1.2rem;
+    font-weight: $font-medium;
+    color: $color-white;
   }
 
   &__loading--text {

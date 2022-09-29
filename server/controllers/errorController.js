@@ -7,10 +7,10 @@ const handleCastErorDB = (err) => {
 };
 
 const handleDuplicateFieldsDB = (err) => {
-  const value = Object.keys(err.keyValue).map((key) => err.keyValue[key]);
+  const value = Object.keys(err.keyValue).map((key) => key);
   console.log(value);
 
-  const message = `Duplicate field value: ${value}. Please use another value!`;
+  const message = `Contact with this same ${value} is already exists`;
   return new AppError(message, 400);
 };
 

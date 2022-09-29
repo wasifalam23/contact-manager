@@ -6,6 +6,7 @@ import Input from './Input/Input';
 import './AddContactForm.scss';
 import Button from '../../utils/Button/Button';
 import useHttp from '../../hooks/http-hook';
+import ToastBar from '../../utils/ToastBar/ToastBar';
 
 const textValidate = (value) => value.trim() !== '';
 const emailValidate = (value) => value.includes('@');
@@ -13,7 +14,7 @@ const phoneValidate = (value) =>
   value.trim().length >= 10 && value.trim().length <= 13;
 
 const AddContactForm = () => {
-  const { sendRequest: postData, isLoading, error } = useHttp();
+  const { sendRequest: postData, isLoading, error, isSuccess } = useHttp();
 
   const [imageFile, setImageFile] = useState();
 
@@ -91,21 +92,26 @@ const AddContactForm = () => {
     formData.append('email', enteredEmail);
     formData.append('address', enteredAddress);
 
-    console.log(error);
+    const applyPostData = (data) => {
+      console.log(data);
+    };
 
-    postData({
-      url: 'http://localhost:3000/api/v1/contacts',
-      method: 'POST',
-      body: formData,
-    });
+    postData(
+      {
+        url: 'http://localhost:3000/api/v1/contacts',
+        method: 'POST',
+        body: formData,
+      },
+      applyPostData
+    );
 
-    setImageFile();
-    fristNameReset();
-    lastNameReset();
-    emailReset();
-    dateReset();
-    phoneReset();
-    addressReset();
+    // setImageFile();
+    // fristNameReset();
+    // lastNameReset();
+    // emailReset();
+    // dateReset();
+    // phoneReset();
+    // addressReset();
 
     // const data = {
     //   image: imageFile,
@@ -122,6 +128,10 @@ const AddContactForm = () => {
 
   return (
     <form onSubmit={formSubmissionHandler}>
+      {error && <ToastBar type="error" errorMsg={error} />}
+      {isSuccess && (
+        <ToastBar type="success" successMsg="Contact added successfully" />
+      )}
       <dir className="form-control__container">
         <ImageUpload
           className="form-control__image--upload"
@@ -129,15 +139,6 @@ const AddContactForm = () => {
           id="image"
         />
         <div className="form-control__input--holders">
-          {/* {
-            <p className="form-control__input-required--text">
-              <FontAwesomeIcon
-                className="input__error--icon"
-                icon={faExclamationTriangle}
-              />
-              Please fill out the required fields.
-            </p>
-          } */}
           <div className="form-control__left">
             <Input
               id="first-name"
