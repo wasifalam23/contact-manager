@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { uiActions } from '../../store/ui-slice';
+
 import {
   faCheckCircle,
   faExclamationCircle,
@@ -11,39 +13,51 @@ import './ToastBar.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ToastNotification = (props) => {
-  const [isError, setIsError] = useState(false);
+  // const [isError, setIsError] = useState(false);
 
-  const loading = props.type === 'loading' && (
+  const isLoading = useSelector((state) => state.ui.isLoading);
+  const error = useSelector((state) => state.ui.error);
+  const isSuccess = useSelector((state) => state.ui.isSuccess);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(uiActions.setError({ error: null }));
+      dispatch(uiActions.setIsSuccess({ isSuccess: false }));
+    }, 3000);
+  }, [dispatch]);
+
+  const loadingToast = isLoading && (
     <div className="toast-bar__container toast-bar__loading">
-      <h3 className="toast-bar__loading--text">Loading...</h3>
+      <h3 className="toast-bar__loading--text">{props.message}</h3>
     </div>
   );
 
-  let error = props.type === 'error' && (
+  const errorToast = error && (
     <div className="toast-bar__container toast-bar__error">
       <FontAwesomeIcon
         className="toast-bar__error--icon"
         icon={faExclamationCircle}
       />
-      <p className="toast-bar__error--text">{props.errorMsg}</p>
+      <p className="toast-bar__error--text">{props.message}</p>
     </div>
   );
 
-  let success = props.type === 'success' && (
+  const successToast = isSuccess && (
     <div className="toast-bar__container toast-bar__success">
       <FontAwesomeIcon
         className="toast-bar__success--icon"
         icon={faCheckCircle}
       />
-      <p className="toast-bar__success--text">{props.successMsg}</p>
+      <p className="toast-bar__success--text">{props.message}</p>
     </div>
   );
 
   return (
     <React.Fragment>
-      {loading}
-      {error}
-      {success}
+      {loadingToast}
+      {errorToast}
+      {successToast}
     </React.Fragment>
   );
 };
@@ -52,11 +66,7 @@ const ToastBar = (props) => {
   return (
     <React.Fragment>
       {createPortal(
-        <ToastNotification
-          type={props.type}
-          errorMsg={props.errorMsg}
-          successMsg={props.successMsg}
-        />,
+        <ToastNotification type={props.type} message={props.message} />,
         document.getElementById('toast-root')
       )}
     </React.Fragment>

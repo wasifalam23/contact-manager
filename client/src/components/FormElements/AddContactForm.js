@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import useForm from '../../hooks/form-hook';
 import ImageUpload from './ImageUpload/ImageUpload';
@@ -14,9 +15,11 @@ const phoneValidate = (value) =>
   value.trim().length >= 10 && value.trim().length <= 13;
 
 const AddContactForm = () => {
-  const { sendRequest: postData, isLoading, error, isSuccess } = useHttp();
-
+  const { sendRequest: postData, isLoading } = useHttp();
   const [imageFile, setImageFile] = useState();
+
+  const error = useSelector((state) => state.ui.error);
+  const isSuccess = useSelector((state) => state.ui.isSuccess);
 
   const {
     value: enteredFirstName,
@@ -79,9 +82,9 @@ const AddContactForm = () => {
   const formSubmissionHandler = (e) => {
     e.preventDefault();
 
-    if (!formIsValid) {
-      return;
-    }
+    // if (!formIsValid) {
+    //   return;
+    // }
 
     const formData = new FormData();
     formData.append('photo', imageFile);
@@ -128,10 +131,8 @@ const AddContactForm = () => {
 
   return (
     <form onSubmit={formSubmissionHandler}>
-      {error && <ToastBar type="error" errorMsg={error} />}
-      {isSuccess && (
-        <ToastBar type="success" successMsg="Contact added successfully" />
-      )}
+      {error && <ToastBar message={error} />}
+      {isSuccess && <ToastBar message="Contact added successfully" />}
       <dir className="form-control__container">
         <ImageUpload
           className="form-control__image--upload"
@@ -205,7 +206,7 @@ const AddContactForm = () => {
             type="submit"
             className="form-control__save--btn"
             btnText="Save Contact"
-            disabled={!formIsValid}
+            // disabled={!formIsValid}
           />
         </div>
       </dir>

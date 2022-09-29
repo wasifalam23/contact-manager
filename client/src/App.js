@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { contactActions } from './store/contact-slice';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -7,10 +7,10 @@ import Header from './components/Header/Header';
 import AddContact from './pages/AddContact';
 import Contacts from './pages/Contacts';
 import useHttp from './hooks/http-hook';
-import ToastBar from './utils/ToastBar/ToastBar';
 
 const App = () => {
-  const { sendRequest: fetchContacts, isLoading, error } = useHttp();
+  console.log('from app');
+  const { sendRequest: fetchContacts } = useHttp();
 
   const dispatch = useDispatch();
 
@@ -28,7 +28,6 @@ const App = () => {
   return (
     <BrowserRouter>
       <Header />
-      {isLoading && <ToastBar type="loading" />}
       <Routes>
         <Route path="/" element={<Contacts />} />
         <Route path="/addContact" element={<AddContact />} />

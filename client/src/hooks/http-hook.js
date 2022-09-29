@@ -1,50 +1,61 @@
 import { useState, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { uiActions } from '../store/ui-slice';
 
 const useHttp = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [isSuccess, setIsSuccess] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState(null);
+  // const [isSuccess, setIsSuccess] = useState(false);
 
-  const sendRequest = useCallback(async (requestConfig, applyData) => {
-    setIsLoading(true);
-    try {
-      const response = await fetch(requestConfig.url, {
-        method: requestConfig.method ? requestConfig.method : 'GET',
-        headers: requestConfig.headers ? requestConfig.headers : {},
-        body: requestConfig.body ? requestConfig.body : null,
-      });
+  const dispatch = useDispatch();
 
-      // console.log(response);
+  const sendRequest = useCallback(
+    async (requestConfig, applyData) => {
+      dispatch(uiActions.setIsLoading({ isLoading: true }));
+      // setIsLoading(true);
+      try {
+        const response = await fetch(requestConfig.url, {
+          method: requestConfig.method ? requestConfig.method : 'GET',
+          headers: requestConfig.headers ? requestConfig.headers : {},
+          body: requestConfig.body ? requestConfig.body : null,
+        });
 
-      // if (!response.ok) {
-      //   throw new Error('Request failed');
-      // }
+        // console.log(response);
 
-      const data = await response.json();
+        // if (!response.ok) {
+        //   throw new Error('Request failed');
+        // }
 
-      if (data.status === 'success') {
-        setIsSuccess(true);
+        const data = await response.json();
+
+        if (requestConfig.method === 'POST' && data.status === 'success') {
+          dispatch(uiActions.setIsSuccess({ isSuccess: true }));
+        }
+
+        if (data.status === 'fail') {
+          dispatch(uiActions.setIsSuccess({ isSuccess: false }));
+          throw new Error(data.message);
+        }
+
+        applyData(data);
+      } catch (err) {
+        dispatch(uiActions.setIsSuccess({ isSuccess: false }));
+        dispatch(
+          uiActions.setError({ error: err.message || 'Something went wrong!' })
+        );
+        // setError(err.message || 'Something went wrong!');
       }
 
-      if (data.status === 'fail') {
-        setIsSuccess(false);
-        throw new Error(data.message);
-      }
-
-      applyData(data);
-    } catch (err) {
-      setIsSuccess(false);
-      setError(err.message || 'Something went wrong!');
-    }
-
-    setIsLoading(false);
-  }, []);
+      dispatch(uiActions.setIsLoading({ isLoading: false }));
+    },
+    [dispatch]
+  );
 
   return {
     sendRequest,
-    isLoading,
-    isSuccess,
-    error,
+    // isLoading,
+    // isSuccess,
+    // error,
   };
 };
 
