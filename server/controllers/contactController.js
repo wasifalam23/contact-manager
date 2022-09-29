@@ -79,8 +79,6 @@ exports.getContact = catchAsync(async (req, res, next) => {
 exports.createContact = catchAsync(async (req, res, next) => {
   const imgFile = req.file ? req.file.filename : undefined;
 
-  console.log(req.body);
-
   const newContact = await Contact.create({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
