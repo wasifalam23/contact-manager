@@ -9,8 +9,9 @@ import Contacts from './pages/Contacts';
 import useHttp from './hooks/http-hook';
 
 const App = () => {
-  const { sendRequest: fetchContacts } = useHttp();
+  const dataSavedSuccess = useSelector((state) => state.ui.dataPostedSuccess);
 
+  const { sendRequest: fetchContacts } = useHttp();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,7 +23,7 @@ const App = () => {
       { url: 'http://localhost:3000/api/v1/contacts' },
       applyContacts
     );
-  }, [dispatch, fetchContacts]);
+  }, [dispatch, fetchContacts, dataSavedSuccess]);
 
   return (
     <BrowserRouter>

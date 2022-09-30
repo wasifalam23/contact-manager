@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import useForm from '../../hooks/form-hook';
+import useHttp from '../../hooks/http-hook';
+import useImgUpload from '../../hooks/imgUpload-hook';
 import ImageUpload from './ImageUpload/ImageUpload';
 import Input from './Input/Input';
 import './AddContactForm.scss';
 import Button from '../../utils/Button/Button';
-import useHttp from '../../hooks/http-hook';
 import ToastBar from '../../utils/ToastBar/ToastBar';
 
 const textValidate = (value) => value.trim() !== '';
@@ -16,10 +17,19 @@ const phoneValidate = (value) =>
 
 const AddContactForm = () => {
   const { sendRequest: postData } = useHttp();
-  const [imageFile, setImageFile] = useState();
 
   const error = useSelector((state) => state.ui.error);
   const isSuccess = useSelector((state) => state.ui.dataPostedSuccess);
+
+  const {
+    file: imageFile,
+    previewUrl: imagePreviewUrl,
+    isValid: imageIsValid,
+    pickedHandler,
+    pickImageHandler,
+    filePickerRef,
+    resetFile: resetImage,
+  } = useImgUpload();
 
   const {
     value: enteredFirstName,
@@ -75,10 +85,6 @@ const AddContactForm = () => {
     formIsValid = true;
   }
 
-  const imageUploadHandler = (imgFile, isValid) => {
-    setImageFile(imgFile);
-  };
-
   const formSubmissionHandler = (e) => {
     e.preventDefault();
 
@@ -97,7 +103,7 @@ const AddContactForm = () => {
 
     const applyPostData = (data) => {
       if (data.status === 'success') {
-        setImageFile();
+        resetImage();
         firstNameReset();
         lastNameReset();
         emailReset();
@@ -126,7 +132,10 @@ const AddContactForm = () => {
       <dir className="form-control__container">
         <ImageUpload
           className="form-control__image--upload"
-          onInput={imageUploadHandler}
+          inputRef={filePickerRef}
+          inputOnChange={pickedHandler}
+          imgSrc={imagePreviewUrl}
+          buttonOnClick={pickImageHandler}
           id="image"
         />
         <div className="form-control__input--holders">
