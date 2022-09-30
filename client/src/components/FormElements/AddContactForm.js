@@ -19,7 +19,6 @@ const AddContactForm = () => {
   const [imageFile, setImageFile] = useState();
 
   const error = useSelector((state) => state.ui.error);
-
   const isSuccess = useSelector((state) => state.ui.dataPostedSuccess);
 
   const {
@@ -28,7 +27,7 @@ const AddContactForm = () => {
     valueBlurHandler: firstNameBlurHandler,
     hasError: firstNameHasError,
     isValid: firstNameIsValid,
-    reset: fristNameReset,
+    reset: firstNameReset,
   } = useForm(textValidate);
 
   const {
@@ -97,7 +96,15 @@ const AddContactForm = () => {
     formData.append('address', enteredAddress);
 
     const applyPostData = (data) => {
-      console.log(data);
+      if (data.status === 'success') {
+        setImageFile();
+        firstNameReset();
+        lastNameReset();
+        emailReset();
+        dateReset();
+        phoneReset();
+        addressReset();
+      }
     };
 
     postData(
@@ -108,14 +115,6 @@ const AddContactForm = () => {
       },
       applyPostData
     );
-
-    setImageFile();
-    fristNameReset();
-    lastNameReset();
-    emailReset();
-    dateReset();
-    phoneReset();
-    addressReset();
   };
 
   return (
