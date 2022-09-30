@@ -15,11 +15,12 @@ const phoneValidate = (value) =>
   value.trim().length >= 10 && value.trim().length <= 13;
 
 const AddContactForm = () => {
-  const { sendRequest: postData, isLoading } = useHttp();
+  const { sendRequest: postData } = useHttp();
   const [imageFile, setImageFile] = useState();
 
   const error = useSelector((state) => state.ui.error);
-  const isSuccess = useSelector((state) => state.ui.isSuccess);
+
+  const isSuccess = useSelector((state) => state.ui.dataPostedSuccess);
 
   const {
     value: enteredFirstName,
@@ -82,9 +83,9 @@ const AddContactForm = () => {
   const formSubmissionHandler = (e) => {
     e.preventDefault();
 
-    // if (!formIsValid) {
-    //   return;
-    // }
+    if (!formIsValid) {
+      return;
+    }
 
     const formData = new FormData();
     formData.append('photo', imageFile);
@@ -108,31 +109,21 @@ const AddContactForm = () => {
       applyPostData
     );
 
-    // setImageFile();
-    // fristNameReset();
-    // lastNameReset();
-    // emailReset();
-    // dateReset();
-    // phoneReset();
-    // addressReset();
-
-    // const data = {
-    //   image: imageFile,
-    //   firstName: enteredFirstName,
-    //   lastName: enteredLastName,
-    //   dateOfBirth: enteredDate,
-    //   email: enteredEmail,
-    //   phone: enteredPhone,
-    //   address: enteredAddress,
-    // };
-
-    // console.log(data);
+    setImageFile();
+    fristNameReset();
+    lastNameReset();
+    emailReset();
+    dateReset();
+    phoneReset();
+    addressReset();
   };
 
   return (
     <form onSubmit={formSubmissionHandler}>
-      {error && <ToastBar message={error} />}
-      {isSuccess && <ToastBar message="Contact added successfully" />}
+      {error && <ToastBar type="error" message={error} />}
+      {isSuccess && (
+        <ToastBar type="success" message="Contact added successfully" />
+      )}
       <dir className="form-control__container">
         <ImageUpload
           className="form-control__image--upload"
@@ -206,7 +197,7 @@ const AddContactForm = () => {
             type="submit"
             className="form-control__save--btn"
             btnText="Save Contact"
-            // disabled={!formIsValid}
+            disabled={!formIsValid}
           />
         </div>
       </dir>

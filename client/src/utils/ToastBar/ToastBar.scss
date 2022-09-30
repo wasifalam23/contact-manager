@@ -16,6 +16,35 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 1.4rem;
+  }
+
+  &__loading--spinner {
+    left: 2rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__loading--spinner::after {
+    content: '';
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid #eee;
+    border-top-color: #555;
+    border-radius: 50%;
+    animation: loading 1s linear infinite;
+  }
+
+  @keyframes loading {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+
+  &__loading--text {
+    font-size: 1.6rem;
+    font-weight: $font-medium;
+    color: $color-white;
   }
 
   &__error {
@@ -54,11 +83,5 @@
     font-size: 1.2rem;
     font-weight: $font-medium;
     color: $color-white;
-  }
-
-  &__loading--text {
-    color: $color-white;
-    font-size: 1.8rem;
-    font-weight: $font-medium;
   }
 }

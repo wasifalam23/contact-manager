@@ -13,27 +13,22 @@ import './ToastBar.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ToastNotification = (props) => {
-  // const [isError, setIsError] = useState(false);
-
-  const isLoading = useSelector((state) => state.ui.isLoading);
-  const error = useSelector((state) => state.ui.error);
-  const isSuccess = useSelector((state) => state.ui.isSuccess);
   const dispatch = useDispatch();
 
   useEffect(() => {
     setTimeout(() => {
-      dispatch(uiActions.setError({ error: null }));
-      dispatch(uiActions.setIsSuccess({ isSuccess: false }));
-    }, 3000);
+      dispatch(uiActions.hideToastBar());
+    }, 4000);
   }, [dispatch]);
 
-  const loadingToast = isLoading && (
+  const loadingToast = (
     <div className="toast-bar__container toast-bar__loading">
-      <h3 className="toast-bar__loading--text">{props.message}</h3>
+      <div className="toast-bar__loading--spinner"></div>
+      <p className="toast-bar__loading--text">{props.message}</p>
     </div>
   );
 
-  const errorToast = error && (
+  const errorToast = (
     <div className="toast-bar__container toast-bar__error">
       <FontAwesomeIcon
         className="toast-bar__error--icon"
@@ -43,7 +38,7 @@ const ToastNotification = (props) => {
     </div>
   );
 
-  const successToast = isSuccess && (
+  const successToast = (
     <div className="toast-bar__container toast-bar__success">
       <FontAwesomeIcon
         className="toast-bar__success--icon"
@@ -55,9 +50,9 @@ const ToastNotification = (props) => {
 
   return (
     <React.Fragment>
-      {loadingToast}
-      {errorToast}
-      {successToast}
+      {props.type === 'loading' && loadingToast}
+      {props.type === 'error' && errorToast}
+      {props.type === 'success' && successToast}
     </React.Fragment>
   );
 };

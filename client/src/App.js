@@ -9,7 +9,6 @@ import Contacts from './pages/Contacts';
 import useHttp from './hooks/http-hook';
 
 const App = () => {
-  console.log('from app');
   const { sendRequest: fetchContacts } = useHttp();
 
   const dispatch = useDispatch();

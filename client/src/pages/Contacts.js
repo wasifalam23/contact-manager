@@ -17,7 +17,7 @@ const Contacts = () => {
       title="Contacts"
       otherEl={countactCount}
     >
-      {isLoading && <ToastBar message="Loading..." />}
+      {isLoading && <ToastBar type="loading" message="Loading..." />}
       <ContactsList />
     </Container>
   );
