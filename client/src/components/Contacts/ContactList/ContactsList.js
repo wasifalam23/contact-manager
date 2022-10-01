@@ -16,7 +16,8 @@ const ContactsList = () => {
             img={contact.photo}
             firstName={contact.firstName}
             lastName={contact.lastName}
-            dateOfBirth={contact.dateOfBirth}
+            birthDate={contact.dateOfBirth}
+            age={contact.age}
             address={contact.address}
             email={contact.email}
             phone={contact.phone}

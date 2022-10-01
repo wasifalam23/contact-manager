@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import {
   faEnvelope,
   faPhone,
@@ -6,11 +7,13 @@ import {
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import erikImg from '../../../assets/erik.jpg';
 
 import './ContactItem.scss';
 
 const ContactItem = (props) => {
+  const dateOfBirth = moment(props.birthDate).format('Do MMM YYYY');
+  const birthAgeStr = `Born on ${dateOfBirth} and age is ${props.age}`;
+
   return (
     <li className="contact-item__container--main">
       <div className="contact-item__container">
@@ -40,7 +43,7 @@ const ContactItem = (props) => {
           <div className="contact-item__content--holder">
             <div className="contact-item__content--left">
               <p className="contact-item__address">{props.address}</p>
-              <p className="contact-item__birth-info">{props.dateOfBirth}</p>
+              <p className="contact-item__birth-info">{birthAgeStr}</p>
             </div>
 
             <div className="contact-item__content--right">
