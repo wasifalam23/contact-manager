@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 
 import useForm from '../../hooks/form-hook';
 import useHttp from '../../hooks/http-hook';
-import useImgUpload from '../../hooks/imgUpload-hook';
 import ImageUpload from './ImageUpload/ImageUpload';
 import Input from './Input/Input';
 import './AddContactForm.scss';
@@ -24,12 +23,12 @@ const AddContactForm = () => {
   const {
     file: imageFile,
     previewUrl: imagePreviewUrl,
-    isValid: imageIsValid,
-    pickedHandler,
+    fileIsValid: imageIsValid,
+    filePickedHandler,
     pickImageHandler,
     filePickerRef,
     resetFile: resetImage,
-  } = useImgUpload();
+  } = useForm();
 
   const {
     value: enteredFirstName,
@@ -133,7 +132,7 @@ const AddContactForm = () => {
         <ImageUpload
           className="form-control__image--upload"
           inputRef={filePickerRef}
-          inputOnChange={pickedHandler}
+          inputOnChange={filePickedHandler}
           imgSrc={imagePreviewUrl}
           buttonOnClick={pickImageHandler}
           id="image"

@@ -1,10 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const useForm = (validateValue) => {
   const [enteredValue, setEnteredValue] = useState('');
   const [isTouched, setIsTouched] = useState(false);
 
-  const valueIsValid = validateValue(enteredValue);
+  const [file, setFile] = useState();
+  const [previewUrl, setPreviewUrl] = useState();
+  const [fileIsValid, setFileIsValid] = useState(false);
+
+  const filePickerRef = useRef();
+
+  // Image Files
+  useEffect(() => {
+    if (!file) {
+      return;
+    }
+
+    const fileReader = new FileReader();
+
+    fileReader.onload = () => {
+      setPreviewUrl(fileReader.result);
+    };
+
+    fileReader.readAsDataURL(file);
+  }, [file]);
+
+  const valueIsValid = validateValue && validateValue(enteredValue);
   const hasError = !valueIsValid && isTouched;
 
   const valueChangeHandler = (e) => {
@@ -20,6 +41,27 @@ const useForm = (validateValue) => {
     setIsTouched(false);
   };
 
+  const filePickedHandler = (e) => {
+    let pickedFile;
+
+    if (e.target.files && e.target.files.length === 1) {
+      pickedFile = e.target.files[0];
+      setFile(pickedFile);
+      setFileIsValid(true);
+    } else {
+      setFileIsValid(false);
+    }
+  };
+
+  const pickImageHandler = () => {
+    filePickerRef.current.click();
+  };
+
+  const resetFile = () => {
+    setFile();
+    setPreviewUrl();
+  };
+
   return {
     value: enteredValue,
     valueChangeHandler,
@@ -27,6 +69,13 @@ const useForm = (validateValue) => {
     hasError,
     valueBlurHandler,
     reset,
+    file,
+    previewUrl,
+    fileIsValid,
+    filePickerRef,
+    filePickedHandler,
+    pickImageHandler,
+    resetFile,
   };
 };
 
