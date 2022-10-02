@@ -22,7 +22,8 @@ const AddContactForm = () => {
   const { sendRequest: updateData } = useHttp();
 
   const error = useSelector((state) => state.ui.error);
-  const isSuccess = useSelector((state) => state.ui.dataPostedSuccess);
+  const requestSuccess = useSelector((state) => state.ui.requestIsSuccess);
+  const toastMessage = useSelector((state) => state.ui.toastMessage);
 
   const { id: contactId } = useParams();
 
@@ -153,15 +154,15 @@ const AddContactForm = () => {
 
     const applyPostData = (data) => {
       console.log(data);
-      // if (data.status === 'success') {
-      //   resetImage();
-      //   firstNameReset();
-      //   lastNameReset();
-      //   emailReset();
-      //   dateReset();
-      //   phoneReset();
-      //   addressReset();
-      // }
+      if (data.status === 'success') {
+        resetImage();
+        firstNameReset();
+        lastNameReset();
+        emailReset();
+        dateReset();
+        phoneReset();
+        addressReset();
+      }
     };
 
     if (contactId) {
@@ -191,9 +192,8 @@ const AddContactForm = () => {
   return (
     <form onSubmit={formSubmissionHandler}>
       {error && <ToastBar type="error" message={error} />}
-      {isSuccess && (
-        <ToastBar type="success" message="Contact added successfully" />
-      )}
+      {requestSuccess && <ToastBar type="success" message={toastMessage} />}
+
       <dir className="form-control__container">
         <ImageUpload
           className="form-control__image--upload"

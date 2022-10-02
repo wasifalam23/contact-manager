@@ -18,21 +18,34 @@ const useHttp = () => {
 
         const data = await response.json();
 
-        if (
-          (requestConfig.method === 'POST' && data.status === 'success') ||
-          (requestConfig.method === 'PATCH' && data.status === 'success')
-        ) {
-          dispatch(uiActions.setDataPostedSuccess(true));
+        if (requestConfig.method === 'POST' && data.status === 'success') {
+          dispatch(
+            uiActions.setRequestIsSuccess({
+              isSuccess: true,
+              message: 'Contact added successfully',
+            })
+          );
+        }
+
+        if (requestConfig.method === 'PATCH' && data.status === 'success') {
+          dispatch(
+            uiActions.setRequestIsSuccess({
+              isSuccess: true,
+              message: 'Contact updated successfully',
+            })
+          );
         }
 
         if (data.status === 'fail') {
-          dispatch(uiActions.setDataPostedSuccess(false));
+          uiActions.setRequestIsSuccess({
+            isSuccess: false,
+            message: null,
+          });
           throw new Error(data.message);
         }
 
         applyData(data);
       } catch (err) {
-        dispatch(uiActions.setDataPostedSuccess(false));
         dispatch(uiActions.setError(err.message || 'Something went wrong!'));
       }
 

@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   isLoading: false,
   error: null,
-  dataPostedSuccess: false,
+  requestIsSuccess: false,
+  toastMessage: null,
 };
 
 const uiSlice = createSlice({
@@ -16,15 +17,17 @@ const uiSlice = createSlice({
 
     hideToastBar(state, action) {
       state.error = null;
-      state.dataPostedSuccess = false;
+      state.requestIsSuccess = false;
+      state.toastMessage = null;
     },
 
     setError(state, action) {
       state.error = action.payload;
     },
 
-    setDataPostedSuccess(state, action) {
-      state.dataPostedSuccess = action.payload;
+    setRequestIsSuccess(state, action) {
+      state.requestIsSuccess = action.payload.isSuccess;
+      state.toastMessage = action.payload.message;
     },
   },
 });

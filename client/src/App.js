@@ -9,17 +9,17 @@ import Contacts from './pages/Contacts';
 import useHttp from './hooks/http-hook';
 
 const App = () => {
-  const [isDataSaved, setIsDataSaved] = useState(false);
-  const dataSavedSuccess = useSelector((state) => state.ui.dataPostedSuccess);
+  const [requestChange, setRequestChange] = useState(false);
+  const requestIsSuccess = useSelector((state) => state.ui.requestIsSuccess);
 
   const { sendRequest: fetchContacts } = useHttp();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (dataSavedSuccess) {
-      setIsDataSaved(true);
+    if (requestIsSuccess) {
+      setRequestChange((prev) => !prev);
     }
-  }, [dataSavedSuccess]);
+  }, [requestIsSuccess]);
 
   useEffect(() => {
     const applyContacts = (data) => {
@@ -30,7 +30,7 @@ const App = () => {
       { url: 'http://localhost:3000/api/v1/contacts' },
       applyContacts
     );
-  }, [dispatch, fetchContacts, isDataSaved]);
+  }, [dispatch, fetchContacts, requestChange]);
 
   return (
     <BrowserRouter>
