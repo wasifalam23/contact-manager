@@ -98,6 +98,7 @@ exports.createContact = catchAsync(async (req, res, next) => {
 });
 
 exports.updateContact = catchAsync(async (req, res, next) => {
+  console.log(req.params.id);
   const contact = await Contact.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,

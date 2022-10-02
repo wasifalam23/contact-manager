@@ -64,6 +64,7 @@ const useForm = (validateValue) => {
 
   return {
     value: enteredValue,
+    setEnteredValue,
     valueChangeHandler,
     isValid: valueIsValid,
     hasError,

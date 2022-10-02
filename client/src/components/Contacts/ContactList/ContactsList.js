@@ -13,6 +13,7 @@ const ContactsList = () => {
         return (
           <ContactItem
             key={contact._id}
+            id={contact.id}
             img={contact.photo}
             firstName={contact.firstName}
             lastName={contact.lastName}

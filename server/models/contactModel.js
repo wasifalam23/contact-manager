@@ -54,7 +54,7 @@ const contactSchema = new mongoose.Schema(
 
 contactSchema.virtual('age').get(function () {
   const currentYear = new Date(Date.now()).getFullYear();
-  const birthYear = this.dateOfBirth.getFullYear();
+  const birthYear = this.dateOfBirth && this.dateOfBirth.getFullYear();
   return currentYear - birthYear;
 });
 

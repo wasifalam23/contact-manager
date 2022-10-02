@@ -22,7 +22,6 @@ const App = () => {
   }, [dataSavedSuccess]);
 
   useEffect(() => {
-    console.log('from app useeefct');
     const applyContacts = (data) => {
       dispatch(contactActions.storeData({ contacts: data.data.contacts }));
     };
@@ -39,6 +38,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Contacts />} />
         <Route path="/addContact" element={<AddContact />} />
+        <Route path="/editContact/:id" element={<AddContact />} />
       </Routes>
     </BrowserRouter>
   );

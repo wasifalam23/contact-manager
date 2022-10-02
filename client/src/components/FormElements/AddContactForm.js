@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import useForm from '../../hooks/form-hook';
@@ -6,6 +6,7 @@ import useHttp from '../../hooks/http-hook';
 import ImageUpload from './ImageUpload/ImageUpload';
 import Input from './Input/Input';
 import './AddContactForm.scss';
+import { useParams } from 'react-router-dom';
 import Button from '../../utils/Button/Button';
 import ToastBar from '../../utils/ToastBar/ToastBar';
 
@@ -15,10 +16,14 @@ const phoneValidate = (value) =>
   value.trim().length >= 10 && value.trim().length <= 13;
 
 const AddContactForm = () => {
+  const { sendRequest: getData } = useHttp();
   const { sendRequest: postData } = useHttp();
+  const { sendRequest: updateData } = useHttp();
 
   const error = useSelector((state) => state.ui.error);
   const isSuccess = useSelector((state) => state.ui.dataPostedSuccess);
+
+  const { id: contactId } = useParams();
 
   const {
     file: imageFile,
@@ -32,6 +37,7 @@ const AddContactForm = () => {
 
   const {
     value: enteredFirstName,
+    setEnteredValue: setEnteredFirstName,
     valueChangeHandler: firstNameChangedHandler,
     valueBlurHandler: firstNameBlurHandler,
     hasError: firstNameHasError,
@@ -41,6 +47,7 @@ const AddContactForm = () => {
 
   const {
     value: enteredLastName,
+    setEnteredValue: setEnteredLastName,
     valueChangeHandler: lastNameChangeHandler,
     valueBlurHandler: lastNameBlurHandler,
     hasError: lastNameHasError,
@@ -50,12 +57,14 @@ const AddContactForm = () => {
 
   const {
     value: enteredDate,
+    setEnteredValue: setEnteredDate,
     valueChangeHandler: dateChangeHandler,
     reset: dateReset,
   } = useForm(textValidate);
 
   const {
     value: enteredEmail,
+    setEnteredValue: setEnteredEmail,
     valueChangeHandler: emailChangeHandler,
     valueBlurHandler: emailBlurHandler,
     hasError: emailHasError,
@@ -65,6 +74,7 @@ const AddContactForm = () => {
 
   const {
     value: enteredPhone,
+    setEnteredValue: setEnteredPhone,
     valueChangeHandler: phoneChangeHandler,
     valueBlurHandler: phoneBlurHandler,
     hasError: phoneHasError,
@@ -74,12 +84,45 @@ const AddContactForm = () => {
 
   const {
     value: enteredAddress,
+    setEnteredValue: setEnteredAddress,
     valueChangeHandler: addressChangeHandler,
     reset: addressReset,
   } = useForm(textValidate);
 
-  let formIsValid = false;
+  useEffect(() => {
+    if (!contactId) return;
 
+    console.log('form useEffect');
+    const applyGetData = (data) => {
+      const { firstName, lastName, phone, email, dateOfBirth, address } =
+        data.data.contact;
+
+      setEnteredFirstName(firstName);
+      setEnteredLastName(lastName);
+      setEnteredPhone(phone);
+      setEnteredEmail(email);
+      setEnteredDate(dateOfBirth);
+      setEnteredAddress(address);
+    };
+
+    getData(
+      {
+        url: `http://localhost:3000/api/v1/contacts/${contactId}`,
+      },
+      applyGetData
+    );
+  }, [
+    contactId,
+    getData,
+    setEnteredFirstName,
+    setEnteredLastName,
+    setEnteredPhone,
+    setEnteredEmail,
+    setEnteredDate,
+    setEnteredAddress,
+  ]);
+
+  let formIsValid = false;
   if (firstNameIsValid && lastNameIsValid && emailIsValid && phoneIsValid) {
     formIsValid = true;
   }
@@ -92,6 +135,7 @@ const AddContactForm = () => {
     }
 
     const formData = new FormData();
+
     formData.append('photo', imageFile);
     formData.append('firstName', enteredFirstName);
     formData.append('lastName', enteredLastName);
@@ -100,17 +144,36 @@ const AddContactForm = () => {
     formData.append('email', enteredEmail);
     formData.append('address', enteredAddress);
 
+    // for (const values of formData.values()) {
+    //   console.log(values);
+    // }
+
     const applyPostData = (data) => {
-      if (data.status === 'success') {
-        resetImage();
-        firstNameReset();
-        lastNameReset();
-        emailReset();
-        dateReset();
-        phoneReset();
-        addressReset();
-      }
+      console.log(data);
+      // if (data.status === 'success') {
+      //   resetImage();
+      //   firstNameReset();
+      //   lastNameReset();
+      //   emailReset();
+      //   dateReset();
+      //   phoneReset();
+      //   addressReset();
+      // }
     };
+
+    if (contactId) {
+      console.log(contactId);
+      updateData(
+        {
+          url: `http://localhost:3000/api/v1/contacts/${contactId}`,
+          method: 'PATCH',
+          body: formData,
+        },
+        applyPostData
+      );
+
+      return;
+    }
 
     postData(
       {

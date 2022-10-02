@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import {
   faEnvelope,
@@ -11,6 +12,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './ContactItem.scss';
 
 const ContactItem = (props) => {
+  const navigate = useNavigate();
+
+  const editContactHandler = () => {
+    navigate(`/editContact/${props.id}`);
+  };
+
   const dateOfBirth = moment(props.birthDate).format('Do MMM YYYY');
   const birthAgeStr = `Born on ${dateOfBirth} and age is ${props.age}`;
 
@@ -20,6 +27,7 @@ const ContactItem = (props) => {
         <header className="contact-item__header">
           <FontAwesomeIcon
             className="contact-item__fa-icon--edit"
+            onClick={editContactHandler}
             icon={faEdit}
           />
           <FontAwesomeIcon
@@ -50,14 +58,14 @@ const ContactItem = (props) => {
               <div className="contact-item__icon-item--holder">
                 <FontAwesomeIcon
                   className="contact-item__fa-icon--phone"
-                  icon={faEnvelope}
+                  icon={faPhone}
                 />
                 <p className="contact-item__phone">{props.phone}</p>
               </div>
               <div className="contact-item__icon-item--holder">
                 <FontAwesomeIcon
                   className="contact-item__fa-icon--email"
-                  icon={faPhone}
+                  icon={faEnvelope}
                 />
                 <p className="contact-item__email">{props.email}</p>
               </div>

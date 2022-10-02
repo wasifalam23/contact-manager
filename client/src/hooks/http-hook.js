@@ -7,6 +7,7 @@ const useHttp = () => {
 
   const sendRequest = useCallback(
     async (requestConfig, applyData) => {
+      console.log(requestConfig);
       dispatch(uiActions.setIsLoading(true));
 
       try {
@@ -18,7 +19,10 @@ const useHttp = () => {
 
         const data = await response.json();
 
-        if (requestConfig.method === 'POST' && data.status === 'success') {
+        if (
+          (requestConfig.method === 'POST' && data.status === 'success') ||
+          (requestConfig.method === 'PATCH' && data.status === 'success')
+        ) {
           dispatch(uiActions.setDataPostedSuccess(true));
         }
 
