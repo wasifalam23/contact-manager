@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import moment from 'moment';
 import { useSelector } from 'react-redux';
 
 import useForm from '../../hooks/form-hook';
@@ -60,7 +61,7 @@ const AddContactForm = () => {
     setEnteredValue: setEnteredDate,
     valueChangeHandler: dateChangeHandler,
     reset: dateReset,
-  } = useForm(textValidate);
+  } = useForm();
 
   const {
     value: enteredEmail,
@@ -87,7 +88,7 @@ const AddContactForm = () => {
     setEnteredValue: setEnteredAddress,
     valueChangeHandler: addressChangeHandler,
     reset: addressReset,
-  } = useForm(textValidate);
+  } = useForm();
 
   useEffect(() => {
     if (!contactId) return;
@@ -97,11 +98,13 @@ const AddContactForm = () => {
       const { firstName, lastName, phone, email, dateOfBirth, address } =
         data.data.contact;
 
+      const birthDate = moment(dateOfBirth).format('YYYY-MM-DD');
+
       setEnteredFirstName(firstName);
       setEnteredLastName(lastName);
       setEnteredPhone(phone);
       setEnteredEmail(email);
-      setEnteredDate(dateOfBirth);
+      setEnteredDate(birthDate);
       setEnteredAddress(address);
     };
 

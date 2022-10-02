@@ -7,7 +7,6 @@ const useHttp = () => {
 
   const sendRequest = useCallback(
     async (requestConfig, applyData) => {
-      console.log(requestConfig);
       dispatch(uiActions.setIsLoading(true));
 
       try {

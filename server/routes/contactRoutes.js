@@ -15,7 +15,11 @@ router
 router
   .route('/:id')
   .get(contactController.getContact)
-  .patch(contactController.updateContact)
+  .patch(
+    contactController.uploadContactPhoto,
+    contactController.resizeContactPhoto,
+    contactController.updateContact
+  )
   .delete(contactController.deleteContact);
 
 module.exports = router;
