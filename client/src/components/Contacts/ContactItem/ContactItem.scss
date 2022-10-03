@@ -17,6 +17,7 @@
   &__fa-icon--edit,
   &__fa-icon--trash {
     font-size: 1.6rem;
+    color: $color-black;
     cursor: pointer;
   }
 
@@ -28,7 +29,7 @@
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.6rem;
   }
 
   &__avatar {
@@ -44,15 +45,16 @@
   }
 
   &__content--holder {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 15rem;
   }
 
   &__content--left,
   &__content--right {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.7rem;
   }
 
   &__content--right {
@@ -67,9 +69,11 @@
     font-weight: $font-regular;
   }
 
+  &__fa-icon--home,
   &__fa-icon--phone,
-  &__fa-icon--email {
-    font-size: 1.3rem;
+  &__fa-icon--email,
+  &__fa-icon--user {
+    font-size: 1.2rem;
     color: $color-pink-primary;
   }
 

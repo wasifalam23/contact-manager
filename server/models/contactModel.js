@@ -31,7 +31,7 @@ const contactSchema = new mongoose.Schema(
 
     photo: {
       type: String,
-      default: 'default.png',
+      default: 'default.jpg',
     },
 
     dateOfBirth: {
@@ -40,6 +40,7 @@ const contactSchema = new mongoose.Schema(
 
     address: {
       type: String,
+      maxLength: [25, 'Address field must be with a max. length of 25'],
     },
   },
   {

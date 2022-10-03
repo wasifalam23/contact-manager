@@ -21,13 +21,6 @@ const ToastNotification = (props) => {
     }, 4000);
   }, [dispatch]);
 
-  const loadingToast = (
-    <div className="toast-bar__container toast-bar__loading">
-      <div className="toast-bar__loading--spinner"></div>
-      <p className="toast-bar__loading--text">{props.message}</p>
-    </div>
-  );
-
   const errorToast = (
     <div className="toast-bar__container toast-bar__error">
       <FontAwesomeIcon
@@ -50,7 +43,6 @@ const ToastNotification = (props) => {
 
   return (
     <React.Fragment>
-      {props.type === 'loading' && loadingToast}
       {props.type === 'error' && errorToast}
       {props.type === 'success' && successToast}
     </React.Fragment>

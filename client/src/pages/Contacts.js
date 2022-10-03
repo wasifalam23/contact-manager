@@ -3,13 +3,16 @@ import { useSelector } from 'react-redux';
 
 import Container from '../utils/Container/Container';
 import ContactsList from '../components/Contacts/ContactList/ContactsList';
-import ToastBar from '../utils/ToastBar/ToastBar';
+import LoadingBar from '../utils/LoadingBar/LoadingBar';
 import './Pages.scss';
 
 const Contacts = () => {
   const isLoading = useSelector((state) => state.ui.isLoading);
+  const contacts = useSelector((state) => state.contact.contactData);
 
-  const countactCount = <p className="contact__count">Total: 3</p>;
+  const countactCount = (
+    <p className="contact__count">Total: {contacts.length}</p>
+  );
 
   return (
     <Container
@@ -17,7 +20,7 @@ const Contacts = () => {
       title="Contacts"
       otherEl={countactCount}
     >
-      {isLoading && <ToastBar type="loading" message="Loading..." />}
+      {isLoading && <LoadingBar />}
       <ContactsList />
     </Container>
   );

@@ -5,10 +5,12 @@ import ConfirmModal from '../../../utils/ConfirmModal/ConfirmModal';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import {
+  faHome,
   faEnvelope,
   faPhone,
   faEdit,
   faTrash,
+  faUserAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -56,6 +58,8 @@ const ContactItem = (props) => {
 
   return (
     <React.Fragment>
+      {requestSuccess && <ToastBar type="success" message={toastMessage} />}
+
       {showConfirmModal && (
         <ConfirmModal
           title="Are you sure?"
@@ -66,7 +70,6 @@ const ContactItem = (props) => {
       )}
 
       <li className="contact-item__container--main">
-        {requestSuccess && <ToastBar type="success" message={toastMessage} />}
         <div className="contact-item__container">
           <header className="contact-item__header">
             <FontAwesomeIcon
@@ -95,8 +98,20 @@ const ContactItem = (props) => {
 
             <div className="contact-item__content--holder">
               <div className="contact-item__content--left">
-                <p className="contact-item__address">{props.address}</p>
-                <p className="contact-item__birth-info">{birthAgeStr}</p>
+                <div className="contact-item__icon-item--holder">
+                  <FontAwesomeIcon
+                    className="contact-item__fa-icon--home"
+                    icon={faHome}
+                  />
+                  <p className="contact-item__address">{props.address}</p>
+                </div>
+                <div className="contact-item__icon-item--holder">
+                  <FontAwesomeIcon
+                    className="contact-item__fa-icon--user"
+                    icon={faUserAlt}
+                  />
+                  <p className="contact-item__birth-info">{birthAgeStr}</p>
+                </div>
               </div>
 
               <div className="contact-item__content--right">
