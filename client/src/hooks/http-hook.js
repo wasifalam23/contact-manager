@@ -36,6 +36,15 @@ const useHttp = () => {
           );
         }
 
+        if (requestConfig.method === 'DELETE' && data.status === 'success') {
+          dispatch(
+            uiActions.setRequestIsSuccess({
+              isSuccess: true,
+              message: 'Contact deleted successfully',
+            })
+          );
+        }
+
         if (data.status === 'fail') {
           uiActions.setRequestIsSuccess({
             isSuccess: false,

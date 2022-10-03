@@ -152,9 +152,6 @@ const AddContactForm = () => {
     //   console.log(values);
     // }
 
-    console.log(formData.values());
-    console.log(enteredDate);
-
     const applyPostData = (data) => {
       console.log(data);
       if (data.status === 'success') {
@@ -169,7 +166,6 @@ const AddContactForm = () => {
     };
 
     if (contactId) {
-      console.log(contactId);
       updateData(
         {
           url: `http://localhost:3000/api/v1/contacts/${contactId}`,
@@ -272,9 +268,10 @@ const AddContactForm = () => {
           <Button
             type="submit"
             className="form-control__save--btn"
-            btnText="Save Contact"
             disabled={!formIsValid}
-          />
+          >
+            Save Contact
+          </Button>
         </div>
       </dir>
     </form>

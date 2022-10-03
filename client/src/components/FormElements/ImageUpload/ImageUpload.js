@@ -29,9 +29,10 @@ const ImageUpload = (props) => {
         <Button
           className="image-upload__btn"
           type="button"
-          btnText="Upload Photo"
           onClick={props.buttonOnClick}
-        />
+        >
+          Upload Photo
+        </Button>
       </div>
     </div>
   );
