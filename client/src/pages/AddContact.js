@@ -1,5 +1,5 @@
 import React from 'react';
-import AddContactForm from '../components/FormElements/AddContactForm';
+import AddContactForm from '../components/FormElements/AddContactForm/AddContactForm';
 import Container from '../utils/Container/Container';
 import './Pages.scss';
 

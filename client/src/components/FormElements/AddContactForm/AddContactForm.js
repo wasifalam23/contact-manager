@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 
-import useForm from '../../hooks/form-hook';
-import useHttp from '../../hooks/http-hook';
-import ImageUpload from './ImageUpload/ImageUpload';
-import Input from './Input/Input';
+import useForm from '../../../hooks/form-hook';
+import useHttp from '../../../hooks/http-hook';
+import ImageUpload from './../ImageUpload/ImageUpload';
+import Input from './../Input/Input';
 import './AddContactForm.scss';
 import { useParams } from 'react-router-dom';
-import Button from '../../utils/Button/Button';
-import ToastBar from '../../utils/ToastBar/ToastBar';
+import Button from '../../../utils/Button/Button';
+import ToastBar from '../../../utils/ToastBar/ToastBar';
 
 const textValidate = (value) => value.trim() !== '';
 const emailValidate = (value) => value.includes('@');
@@ -105,7 +105,7 @@ const AddContactForm = () => {
       setEnteredLastName(lastName);
       setEnteredPhone(phone);
       setEnteredEmail(email);
-      setEnteredDate(birthDate);
+      setEnteredDate(birthDate === 'Invalid date' ? '' : birthDate);
       setEnteredAddress(address);
     };
 
@@ -151,6 +151,9 @@ const AddContactForm = () => {
     // for (const values of formData.values()) {
     //   console.log(values);
     // }
+
+    console.log(formData.values());
+    console.log(enteredDate);
 
     const applyPostData = (data) => {
       console.log(data);
