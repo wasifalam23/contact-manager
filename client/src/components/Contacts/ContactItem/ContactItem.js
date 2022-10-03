@@ -54,7 +54,13 @@ const ContactItem = (props) => {
   };
 
   const dateOfBirth = moment(props.birthDate).format('Do MMM YYYY');
-  const birthAgeStr = `Born on ${dateOfBirth} and age is ${props.age}`;
+
+  const birthAgeStr =
+    dateOfBirth === 'Invalid date'
+      ? 'Not Available'
+      : `Born on ${dateOfBirth} and age is ${props.age}`;
+
+  const address = props.address === '' ? 'Not Available' : props.address;
 
   return (
     <React.Fragment>
@@ -103,7 +109,7 @@ const ContactItem = (props) => {
                     className="contact-item__fa-icon--home"
                     icon={faHome}
                   />
-                  <p className="contact-item__address">{props.address}</p>
+                  <p className="contact-item__address">{address}</p>
                 </div>
                 <div className="contact-item__icon-item--holder">
                   <FontAwesomeIcon

@@ -69,12 +69,17 @@
     font-weight: $font-regular;
   }
 
-  &__fa-icon--home,
   &__fa-icon--phone,
   &__fa-icon--email,
+  &__fa-icon--home,
   &__fa-icon--user {
     font-size: 1.2rem;
     color: $color-pink-primary;
+  }
+
+  &__fa-icon--home,
+  &__fa-icon--user {
+    margin-bottom: 0.1rem;
   }
 
   &__icon-item--holder {

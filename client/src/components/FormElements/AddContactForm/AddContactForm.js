@@ -144,9 +144,9 @@ const AddContactForm = () => {
     formData.append('firstName', enteredFirstName);
     formData.append('lastName', enteredLastName);
     formData.append('dateOfBirth', enteredDate);
+    formData.append('address', enteredAddress);
     formData.append('phone', enteredPhone);
     formData.append('email', enteredEmail);
-    formData.append('address', enteredAddress);
 
     // for (const values of formData.values()) {
     //   console.log(values);

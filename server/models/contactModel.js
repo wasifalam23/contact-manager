@@ -17,12 +17,16 @@ const contactSchema = new mongoose.Schema(
 
     phone: {
       type: String,
+      trim: true,
       required: [true, 'A contact must have a phone'],
       unique: true,
+      minLength: [10, 'Phone field must be with a min. length of 10'],
+      maxLength: [13, 'Phone field must be with a max. length of 13'],
     },
 
     email: {
       type: String,
+      trim: true,
       required: [true, 'Please provide your email'],
       unique: true,
       lowercase: true,
@@ -40,7 +44,9 @@ const contactSchema = new mongoose.Schema(
 
     address: {
       type: String,
+      trim: true,
       maxLength: [25, 'Address field must be with a max. length of 25'],
+      default: 'Not Available',
     },
   },
   {
@@ -57,6 +63,17 @@ contactSchema.virtual('age').get(function () {
   const currentYear = new Date(Date.now()).getFullYear();
   const birthYear = this.dateOfBirth && this.dateOfBirth.getFullYear();
   return currentYear - birthYear;
+});
+
+contactSchema.pre('save', function (next) {
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
+  this.firstName = capitalizeFirstLetter(this.firstName);
+  this.lastName = capitalizeFirstLetter(this.lastName);
+
+  next();
 });
 
 const Contact = mongoose.model('Contact', contactSchema);
