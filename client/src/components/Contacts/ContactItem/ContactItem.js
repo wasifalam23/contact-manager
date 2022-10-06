@@ -17,11 +17,12 @@ import './ContactItem.scss';
 import ToastBar from '../../../utils/ToastBar/ToastBar';
 
 const ContactItem = (props) => {
+  console.log('contactitem is running');
   const {
     sendRequest: deleteContact,
     deleteReqSuccess: contactDeletedIsSuccess,
   } = useHttp();
-  console.log(contactDeletedIsSuccess);
+
   const [showConfirmModal, setShowConfirmModal] = useState();
 
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ const ContactItem = (props) => {
   const confirmModalConfirmHandler = () => {
     const applyDeletedData = (data) => {
       if (data.status === 'success') {
+        setShowConfirmModal(false);
         console.log('item is deleted ');
       }
     };
@@ -48,9 +50,9 @@ const ContactItem = (props) => {
       },
       applyDeletedData
     );
-
-    setShowConfirmModal(false);
   };
+
+  props.onContactDelete(contactDeletedIsSuccess);
 
   const confirmModalCancelHandler = () => {
     setShowConfirmModal(false);
@@ -67,10 +69,6 @@ const ContactItem = (props) => {
 
   return (
     <React.Fragment>
-      {contactDeletedIsSuccess && (
-        <ToastBar type="success" message="Contact is deleted successfully" />
-      )}
-
       {showConfirmModal && (
         <ConfirmModal
           title="Are you sure?"

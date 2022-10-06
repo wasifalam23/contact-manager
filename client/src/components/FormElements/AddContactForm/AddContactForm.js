@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
-
+import { useDispatch } from 'react-redux';
+import { contactActions } from '../../../store/contact-slice';
 import useForm from '../../../hooks/form-hook';
 import useHttp from '../../../hooks/http-hook';
 import ImageUpload from './../ImageUpload/ImageUpload';
@@ -16,6 +17,8 @@ const phoneValidate = (value) =>
   value.trim().length >= 10 && value.trim().length <= 13;
 
 const AddContactForm = () => {
+  const dispatch = useDispatch();
+
   const { sendRequest: getData } = useHttp();
 
   const {

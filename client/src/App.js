@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { contactActions } from './store/contact-slice';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -12,6 +12,7 @@ import useHttp from './hooks/http-hook';
 const App = () => {
   const { sendRequest: fetchContacts, isLoading } = useHttp();
   const dispatch = useDispatch();
+  const reqChanged = useSelector((state) => state.contact.reqHasChanged);
 
   useEffect(() => {
     const applyContacts = (data) => {
@@ -22,7 +23,7 @@ const App = () => {
       { url: 'http://localhost:3000/api/v1/contacts' },
       applyContacts
     );
-  }, [dispatch, fetchContacts]);
+  }, [dispatch, fetchContacts, reqChanged]);
 
   return (
     <BrowserRouter>
