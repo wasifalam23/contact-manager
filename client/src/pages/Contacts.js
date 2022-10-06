@@ -3,11 +3,9 @@ import { useSelector } from 'react-redux';
 
 import Container from '../utils/Container/Container';
 import ContactsList from '../components/Contacts/ContactList/ContactsList';
-import LoadingBar from '../utils/LoadingBar/LoadingBar';
 import './Pages.scss';
 
 const Contacts = () => {
-  const isLoading = useSelector((state) => state.ui.isLoading);
   const contacts = useSelector((state) => state.contact.contactData);
 
   const countactCount = (
@@ -20,7 +18,6 @@ const Contacts = () => {
       title="Contacts"
       otherEl={countactCount}
     >
-      {isLoading && <LoadingBar />}
       <ContactsList />
     </Container>
   );

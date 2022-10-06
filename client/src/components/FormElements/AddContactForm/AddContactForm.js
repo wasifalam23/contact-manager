@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
-import { useSelector } from 'react-redux';
 
 import useForm from '../../../hooks/form-hook';
 import useHttp from '../../../hooks/http-hook';
@@ -158,7 +157,7 @@ const AddContactForm = () => {
     //   console.log(values);
     // }
 
-    const applyPostData = (data) => {
+    const receiveData = (data) => {
       // console.log(data);
       if (data.status === 'success') {
         resetImage();
@@ -178,7 +177,7 @@ const AddContactForm = () => {
           method: 'PATCH',
           body: formData,
         },
-        applyPostData
+        receiveData
       );
 
       return;
@@ -190,7 +189,7 @@ const AddContactForm = () => {
         method: 'POST',
         body: formData,
       },
-      applyPostData
+      receiveData
     );
   };
 

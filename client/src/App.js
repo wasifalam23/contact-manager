@@ -1,26 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { contactActions } from './store/contact-slice';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from './components/Header/Header';
 import AddContact from './pages/AddContact';
 import Contacts from './pages/Contacts';
+import LoadingBar from './utils/LoadingBar/LoadingBar';
 import useHttp from './hooks/http-hook';
 
 const App = () => {
-  const [requestChange, setRequestChange] = useState(false);
-  const requestIsSuccess = useSelector((state) => state.ui.requestIsSuccess);
-
-  const { sendRequest: fetchContacts } = useHttp();
+  const { sendRequest: fetchContacts, isLoading } = useHttp();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    // console.log('App', requestIsSuccess);
-    if (requestIsSuccess) {
-      setRequestChange((prev) => !prev);
-    }
-  }, [requestIsSuccess]);
 
   useEffect(() => {
     const applyContacts = (data) => {
@@ -31,11 +22,13 @@ const App = () => {
       { url: 'http://localhost:3000/api/v1/contacts' },
       applyContacts
     );
-  }, [dispatch, fetchContacts, requestChange]);
+  }, [dispatch, fetchContacts]);
 
   return (
     <BrowserRouter>
+      {isLoading && <LoadingBar />}
       <Header />
+
       <Routes>
         <Route path="/" element={<Contacts />} />
         <Route path="/addContact" element={<AddContact />} />

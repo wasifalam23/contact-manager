@@ -1,15 +1,11 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { createPortal } from 'react-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import { uiActions } from '../../store/ui-slice';
-import 'react-toastify/dist/ReactToastify.css';
 
-// import './ToastBar.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Toastify = (props) => {
   console.log('toastify running');
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (props.type === 'error') {
@@ -23,7 +19,7 @@ const Toastify = (props) => {
         position: 'top-center',
       });
     }
-  }, [props.type, props.message, dispatch]);
+  }, [props.type, props.message]);
 
   return (
     <div>

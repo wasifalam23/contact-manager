@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import useHttp from '../../../hooks/http-hook';
 import ConfirmModal from '../../../utils/ConfirmModal/ConfirmModal';
 import { useNavigate } from 'react-router-dom';
@@ -37,7 +36,9 @@ const ContactItem = (props) => {
 
   const confirmModalConfirmHandler = () => {
     const applyDeletedData = (data) => {
-      if (data.status === 'fail') return;
+      if (data.status === 'success') {
+        console.log('item is deleted ');
+      }
     };
 
     deleteContact(
