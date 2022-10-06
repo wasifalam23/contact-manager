@@ -9,17 +9,15 @@ const useHttp = () => {
   const [patchReqSuccess, setPatchReqSuccess] = useState(false);
   const [deleteReqSuccess, setDeleteReqSuccess] = useState(false);
 
-  console.log(isError);
-
   const dispatch = useDispatch();
 
   const sendRequest = useCallback(
     async (requestConfig, applyData) => {
       dispatch(uiActions.setIsLoading(true));
       setIsError(null);
-      // setPostReqSuccess(false);
-      // setPatchReqSuccess(false);
-      // setDeleteReqSuccess(false);
+      setPostReqSuccess(false);
+      setPatchReqSuccess(false);
+      setDeleteReqSuccess(false);
       try {
         const response = await fetch(requestConfig.url, {
           method: requestConfig.method ? requestConfig.method : 'GET',
@@ -29,20 +27,24 @@ const useHttp = () => {
 
         const data = await response.json();
 
-        if (data.status === 'success') {
-          dispatch(uiActions.setRequestIsSuccess(true));
-        }
+        // if (requestConfig.method !== 'GET' && data.status === 'success') {
+        //   // console.log('success running hook-http');
+        //   dispatch(uiActions.setRequestIsSuccess());
+        // }
 
         if (requestConfig.method === 'POST' && data.status === 'success') {
           setPostReqSuccess(true);
+          dispatch(uiActions.setRequestIsSuccess(true));
         }
 
         if (requestConfig.method === 'PATCH' && data.status === 'success') {
           setPatchReqSuccess(true);
+          dispatch(uiActions.setRequestIsSuccess(true));
         }
 
         if (requestConfig.method === 'DELETE' && data.status === 'success') {
           setDeleteReqSuccess(true);
+          dispatch(uiActions.setRequestIsSuccess(true));
         }
 
         if (data.status === 'fail') {

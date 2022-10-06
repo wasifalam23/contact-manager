@@ -16,6 +16,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // console.log('App', requestIsSuccess);
     if (requestIsSuccess) {
       setRequestChange((prev) => !prev);
     }
@@ -30,7 +31,7 @@ const App = () => {
       { url: 'http://localhost:3000/api/v1/contacts' },
       applyContacts
     );
-  }, [dispatch, fetchContacts, requestIsSuccess]);
+  }, [dispatch, fetchContacts, requestChange]);
 
   return (
     <BrowserRouter>

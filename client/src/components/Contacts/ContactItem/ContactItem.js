@@ -22,10 +22,9 @@ const ContactItem = (props) => {
     sendRequest: deleteContact,
     deleteReqSuccess: contactDeletedIsSuccess,
   } = useHttp();
+  console.log(contactDeletedIsSuccess);
   const [showConfirmModal, setShowConfirmModal] = useState();
 
-  const requestSuccess = useSelector((state) => state.ui.requestIsSuccess);
-  const toastMessage = useSelector((state) => state.ui.toastMessage);
   const navigate = useNavigate();
 
   const editContactHandler = () => {

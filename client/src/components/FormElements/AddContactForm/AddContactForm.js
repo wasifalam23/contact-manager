@@ -18,15 +18,17 @@ const phoneValidate = (value) =>
 
 const AddContactForm = () => {
   const { sendRequest: getData } = useHttp();
+
   const {
     sendRequest: postData,
-    postReqSuccess: contactAddedIsSuccess,
+    postReqSuccess,
     isError: postReqHasError,
   } = useHttp();
+
   const {
-    sendRequest: updateData,
-    patchReqSuccess: contactUpdatedIsSuccess,
-    isError: PatchReqHasError,
+    sendRequest: patchData,
+    patchReqSuccess,
+    isError: patchReqHasError,
   } = useHttp();
 
   const { id: contactId } = useParams();
@@ -157,7 +159,7 @@ const AddContactForm = () => {
     // }
 
     const applyPostData = (data) => {
-      console.log(data);
+      // console.log(data);
       if (data.status === 'success') {
         resetImage();
         firstNameReset();
@@ -170,7 +172,7 @@ const AddContactForm = () => {
     };
 
     if (contactId) {
-      updateData(
+      patchData(
         {
           url: `http://localhost:3000/api/v1/contacts/${contactId}`,
           method: 'PATCH',
@@ -192,16 +194,14 @@ const AddContactForm = () => {
     );
   };
 
-  console.log(contactAddedIsSuccess);
-  console.log(contactUpdatedIsSuccess);
-
   return (
     <form onSubmit={formSubmissionHandler}>
       {postReqHasError && <ToastBar type="error" message={postReqHasError} />}
-      {contactAddedIsSuccess && (
+      {patchReqHasError && <ToastBar type="error" message={patchReqHasError} />}
+      {postReqSuccess && (
         <ToastBar type="success" message="contact is added successfully" />
       )}
-      {contactUpdatedIsSuccess && (
+      {patchReqSuccess && (
         <ToastBar type="success" message="contact is updated successfully" />
       )}
 
