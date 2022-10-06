@@ -1,14 +1,25 @@
+import { useState } from 'react';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { uiActions } from '../store/ui-slice';
 
 const useHttp = () => {
+  const [isError, setIsError] = useState(null);
+  const [postReqSuccess, setPostReqSuccess] = useState(false);
+  const [patchReqSuccess, setPatchReqSuccess] = useState(false);
+  const [deleteReqSuccess, setDeleteReqSuccess] = useState(false);
+
+  console.log(isError);
+
   const dispatch = useDispatch();
 
   const sendRequest = useCallback(
     async (requestConfig, applyData) => {
       dispatch(uiActions.setIsLoading(true));
-
+      setIsError(null);
+      // setPostReqSuccess(false);
+      // setPatchReqSuccess(false);
+      // setDeleteReqSuccess(false);
       try {
         const response = await fetch(requestConfig.url, {
           method: requestConfig.method ? requestConfig.method : 'GET',
@@ -18,44 +29,29 @@ const useHttp = () => {
 
         const data = await response.json();
 
+        if (data.status === 'success') {
+          dispatch(uiActions.setRequestIsSuccess(true));
+        }
+
         if (requestConfig.method === 'POST' && data.status === 'success') {
-          dispatch(
-            uiActions.setRequestIsSuccess({
-              isSuccess: true,
-              message: 'Contact added successfully',
-            })
-          );
+          setPostReqSuccess(true);
         }
 
         if (requestConfig.method === 'PATCH' && data.status === 'success') {
-          dispatch(
-            uiActions.setRequestIsSuccess({
-              isSuccess: true,
-              message: 'Contact updated successfully',
-            })
-          );
+          setPatchReqSuccess(true);
         }
 
         if (requestConfig.method === 'DELETE' && data.status === 'success') {
-          dispatch(
-            uiActions.setRequestIsSuccess({
-              isSuccess: true,
-              message: 'Contact deleted successfully',
-            })
-          );
+          setDeleteReqSuccess(true);
         }
 
         if (data.status === 'fail') {
-          uiActions.setRequestIsSuccess({
-            isSuccess: false,
-            message: null,
-          });
           throw new Error(data.message);
         }
 
         applyData(data);
       } catch (err) {
-        dispatch(uiActions.setError(err.message || 'Something went wrong!'));
+        setIsError(err.message || 'Something went wrong!');
       }
 
       dispatch(uiActions.setIsLoading(false));
@@ -65,6 +61,10 @@ const useHttp = () => {
 
   return {
     sendRequest,
+    isError,
+    postReqSuccess,
+    patchReqSuccess,
+    deleteReqSuccess,
   };
 };
 

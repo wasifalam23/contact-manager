@@ -18,12 +18,16 @@ const phoneValidate = (value) =>
 
 const AddContactForm = () => {
   const { sendRequest: getData } = useHttp();
-  const { sendRequest: postData } = useHttp();
-  const { sendRequest: updateData } = useHttp();
-
-  const error = useSelector((state) => state.ui.error);
-  const requestSuccess = useSelector((state) => state.ui.requestIsSuccess);
-  const toastMessage = useSelector((state) => state.ui.toastMessage);
+  const {
+    sendRequest: postData,
+    postReqSuccess: contactAddedIsSuccess,
+    isError: postReqHasError,
+  } = useHttp();
+  const {
+    sendRequest: updateData,
+    patchReqSuccess: contactUpdatedIsSuccess,
+    isError: PatchReqHasError,
+  } = useHttp();
 
   const { id: contactId } = useParams();
 
@@ -188,10 +192,18 @@ const AddContactForm = () => {
     );
   };
 
+  console.log(contactAddedIsSuccess);
+  console.log(contactUpdatedIsSuccess);
+
   return (
     <form onSubmit={formSubmissionHandler}>
-      {error && <ToastBar type="error" message={error} />}
-      {requestSuccess && <ToastBar type="success" message={toastMessage} />}
+      {postReqHasError && <ToastBar type="error" message={postReqHasError} />}
+      {contactAddedIsSuccess && (
+        <ToastBar type="success" message="contact is added successfully" />
+      )}
+      {contactUpdatedIsSuccess && (
+        <ToastBar type="success" message="contact is updated successfully" />
+      )}
 
       <dir className="form-control__container">
         <ImageUpload

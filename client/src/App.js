@@ -30,7 +30,7 @@ const App = () => {
       { url: 'http://localhost:3000/api/v1/contacts' },
       applyContacts
     );
-  }, [dispatch, fetchContacts, requestChange]);
+  }, [dispatch, fetchContacts, requestIsSuccess]);
 
   return (
     <BrowserRouter>

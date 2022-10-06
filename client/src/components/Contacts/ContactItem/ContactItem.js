@@ -18,7 +18,10 @@ import './ContactItem.scss';
 import ToastBar from '../../../utils/ToastBar/ToastBar';
 
 const ContactItem = (props) => {
-  const { sendRequest: deleteContact } = useHttp();
+  const {
+    sendRequest: deleteContact,
+    deleteReqSuccess: contactDeletedIsSuccess,
+  } = useHttp();
   const [showConfirmModal, setShowConfirmModal] = useState();
 
   const requestSuccess = useSelector((state) => state.ui.requestIsSuccess);
@@ -64,7 +67,9 @@ const ContactItem = (props) => {
 
   return (
     <React.Fragment>
-      {requestSuccess && <ToastBar type="success" message={toastMessage} />}
+      {contactDeletedIsSuccess && (
+        <ToastBar type="success" message="Contact is deleted successfully" />
+      )}
 
       {showConfirmModal && (
         <ConfirmModal

@@ -1,51 +1,34 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { uiActions } from '../../store/ui-slice';
-
-import {
-  faCheckCircle,
-  faExclamationCircle,
-} from '@fortawesome/free-solid-svg-icons';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { createPortal } from 'react-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import { uiActions } from '../../store/ui-slice';
+import 'react-toastify/dist/ReactToastify.css';
 
-import './ToastBar.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import './ToastBar.scss';
 
-const ToastNotification = (props) => {
+const Toastify = (props) => {
+  console.log('toastify running');
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(uiActions.hideToastBar());
-    }, 4000);
-  }, [dispatch]);
+    if (props.type === 'error') {
+      toast.error(props.message, {
+        position: 'top-center',
+      });
+    }
 
-  const errorToast = (
-    <div className="toast-bar__container toast-bar__error">
-      <FontAwesomeIcon
-        className="toast-bar__error--icon"
-        icon={faExclamationCircle}
-      />
-      <p className="toast-bar__error--text">{props.message}</p>
-    </div>
-  );
-
-  const successToast = (
-    <div className="toast-bar__container toast-bar__success">
-      <FontAwesomeIcon
-        className="toast-bar__success--icon"
-        icon={faCheckCircle}
-      />
-      <p className="toast-bar__success--text">{props.message}</p>
-    </div>
-  );
+    if (props.type === 'success') {
+      toast.success(props.message, {
+        position: 'top-center',
+      });
+    }
+  }, [props.type, props.message, dispatch]);
 
   return (
-    <React.Fragment>
-      {props.type === 'error' && errorToast}
-      {props.type === 'success' && successToast}
-    </React.Fragment>
+    <div>
+      <ToastContainer position="top-center" autoClose={4000} />
+    </div>
   );
 };
 
@@ -53,7 +36,7 @@ const ToastBar = (props) => {
   return (
     <React.Fragment>
       {createPortal(
-        <ToastNotification type={props.type} message={props.message} />,
+        <Toastify type={props.type} message={props.message} />,
         document.getElementById('toast-root')
       )}
     </React.Fragment>
