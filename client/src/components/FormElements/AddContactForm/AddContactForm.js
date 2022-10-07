@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
 import useForm from '../../../hooks/form-hook';
+import useUpload from '../../../hooks/upload-hook';
 import useHttp from '../../../hooks/http-hook';
 import ImageUpload from './../ImageUpload/ImageUpload';
 import Input from './../Input/Input';
@@ -42,7 +43,7 @@ const AddContactForm = () => {
     pickImageHandler,
     filePickerRef,
     resetFile: resetImage,
-  } = useForm();
+  } = useUpload();
 
   const {
     value: enteredFirstName,
