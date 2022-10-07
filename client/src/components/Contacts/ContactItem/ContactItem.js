@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import useHttp from '../../../hooks/http-hook';
+import { useDispatch } from 'react-redux';
+import { contactActions } from '../../../store/contact-slice';
 import ConfirmModal from '../../../utils/ConfirmModal/ConfirmModal';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
@@ -14,14 +15,9 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './ContactItem.scss';
-import ToastBar from '../../../utils/ToastBar/ToastBar';
 
 const ContactItem = (props) => {
-  console.log('contactitem is running');
-  const {
-    sendRequest: deleteContact,
-    deleteReqSuccess: contactDeletedIsSuccess,
-  } = useHttp();
+  const dispatch = useDispatch();
 
   const [showConfirmModal, setShowConfirmModal] = useState();
 
@@ -36,23 +32,9 @@ const ContactItem = (props) => {
   };
 
   const confirmModalConfirmHandler = () => {
-    const applyDeletedData = (data) => {
-      if (data.status === 'success') {
-        setShowConfirmModal(false);
-        console.log('item is deleted ');
-      }
-    };
-
-    deleteContact(
-      {
-        url: `http://localhost:3000/api/v1/contacts/${props.id}`,
-        method: 'DELETE',
-      },
-      applyDeletedData
-    );
+    dispatch(contactActions.setDeleteContactId(props.id));
+    setShowConfirmModal(false);
   };
-
-  props.onContactDelete(contactDeletedIsSuccess);
 
   const confirmModalCancelHandler = () => {
     setShowConfirmModal(false);
@@ -68,7 +50,7 @@ const ContactItem = (props) => {
   const address = props.address === '' ? 'Not Available' : props.address;
 
   return (
-    <React.Fragment>
+    <li className="contact-item__container--main">
       {showConfirmModal && (
         <ConfirmModal
           title="Are you sure?"
@@ -77,73 +59,70 @@ const ContactItem = (props) => {
           onConfirm={confirmModalConfirmHandler}
         />
       )}
+      <div className="contact-item__container">
+        <header className="contact-item__header">
+          <FontAwesomeIcon
+            className="contact-item__fa-icon--edit"
+            onClick={editContactHandler}
+            icon={faEdit}
+          />
+          <FontAwesomeIcon
+            className="contact-item__fa-icon--trash"
+            onClick={deleteContactHandler}
+            icon={faTrash}
+          />
+        </header>
 
-      <li className="contact-item__container--main">
-        <div className="contact-item__container">
-          <header className="contact-item__header">
-            <FontAwesomeIcon
-              className="contact-item__fa-icon--edit"
-              onClick={editContactHandler}
-              icon={faEdit}
+        <main className="contact-item__content--main">
+          <div className="contact-item__name-avatar--holder">
+            <img
+              className="contact-item__avatar"
+              src={`http://localhost:3000/contacts/${props.img}`}
+              alt="contact-avatar"
             />
-            <FontAwesomeIcon
-              className="contact-item__fa-icon--trash"
-              onClick={deleteContactHandler}
-              icon={faTrash}
-            />
-          </header>
+            <h3 className="contact-item__name">
+              {props.firstName} {props.lastName}
+            </h3>
+          </div>
 
-          <main className="contact-item__content--main">
-            <div className="contact-item__name-avatar--holder">
-              <img
-                className="contact-item__avatar"
-                src={`http://localhost:3000/contacts/${props.img}`}
-                alt="contact-avatar"
-              />
-              <h3 className="contact-item__name">
-                {props.firstName} {props.lastName}
-              </h3>
-            </div>
-
-            <div className="contact-item__content--holder">
-              <div className="contact-item__content--left">
-                <div className="contact-item__icon-item--holder">
-                  <FontAwesomeIcon
-                    className="contact-item__fa-icon--home"
-                    icon={faHome}
-                  />
-                  <p className="contact-item__address">{address}</p>
-                </div>
-                <div className="contact-item__icon-item--holder">
-                  <FontAwesomeIcon
-                    className="contact-item__fa-icon--user"
-                    icon={faUserAlt}
-                  />
-                  <p className="contact-item__birth-info">{birthAgeStr}</p>
-                </div>
+          <div className="contact-item__content--holder">
+            <div className="contact-item__content--left">
+              <div className="contact-item__icon-item--holder">
+                <FontAwesomeIcon
+                  className="contact-item__fa-icon--home"
+                  icon={faHome}
+                />
+                <p className="contact-item__address">{address}</p>
               </div>
-
-              <div className="contact-item__content--right">
-                <div className="contact-item__icon-item--holder">
-                  <FontAwesomeIcon
-                    className="contact-item__fa-icon--phone"
-                    icon={faPhone}
-                  />
-                  <p className="contact-item__phone">{props.phone}</p>
-                </div>
-                <div className="contact-item__icon-item--holder">
-                  <FontAwesomeIcon
-                    className="contact-item__fa-icon--email"
-                    icon={faEnvelope}
-                  />
-                  <p className="contact-item__email">{props.email}</p>
-                </div>
+              <div className="contact-item__icon-item--holder">
+                <FontAwesomeIcon
+                  className="contact-item__fa-icon--user"
+                  icon={faUserAlt}
+                />
+                <p className="contact-item__birth-info">{birthAgeStr}</p>
               </div>
             </div>
-          </main>
-        </div>
-      </li>
-    </React.Fragment>
+
+            <div className="contact-item__content--right">
+              <div className="contact-item__icon-item--holder">
+                <FontAwesomeIcon
+                  className="contact-item__fa-icon--phone"
+                  icon={faPhone}
+                />
+                <p className="contact-item__phone">{props.phone}</p>
+              </div>
+              <div className="contact-item__icon-item--holder">
+                <FontAwesomeIcon
+                  className="contact-item__fa-icon--email"
+                  icon={faEnvelope}
+                />
+                <p className="contact-item__email">{props.email}</p>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </li>
   );
 };
 

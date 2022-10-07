@@ -17,14 +17,16 @@ const phoneValidate = (value) =>
   value.trim().length >= 10 && value.trim().length <= 13;
 
 const AddContactForm = () => {
-  const dispatch = useDispatch();
+  const { id: contactId } = useParams();
 
+  // Http custom hook
   const { sendRequest: getData } = useHttp();
 
   const {
     sendRequest: postData,
     postReqSuccess,
     isError: postReqHasError,
+    resetError: resetPostReqError,
   } = useHttp();
 
   const {
@@ -33,8 +35,7 @@ const AddContactForm = () => {
     isError: patchReqHasError,
   } = useHttp();
 
-  const { id: contactId } = useParams();
-
+  // Form custom hook
   const {
     file: imageFile,
     previewUrl: imagePreviewUrl,
@@ -161,7 +162,7 @@ const AddContactForm = () => {
     // }
 
     const receiveData = (data) => {
-      // console.log(data);
+      console.log(data);
       if (data.status === 'success') {
         resetImage();
         firstNameReset();
@@ -197,7 +198,7 @@ const AddContactForm = () => {
   };
 
   return (
-    <form onSubmit={formSubmissionHandler}>
+    <React.Fragment>
       {postReqHasError && <ToastBar type="error" message={postReqHasError} />}
       {patchReqHasError && <ToastBar type="error" message={patchReqHasError} />}
       {postReqSuccess && (
@@ -206,89 +207,90 @@ const AddContactForm = () => {
       {patchReqSuccess && (
         <ToastBar type="success" message="contact is updated successfully" />
       )}
-
-      <dir className="form-control__container">
-        <ImageUpload
-          className="form-control__image--upload"
-          inputRef={filePickerRef}
-          inputOnChange={filePickedHandler}
-          imgSrc={imagePreviewUrl}
-          buttonOnClick={pickImageHandler}
-          id="image"
-        />
-        <div className="form-control__input--holders">
-          <div className="form-control__left">
-            <Input
-              id="first-name"
-              label="First Name"
-              type="text"
-              inputRequired
-              value={enteredFirstName}
-              onChange={firstNameChangedHandler}
-              onBlur={firstNameBlurHandler}
-              inputHasError={firstNameHasError}
-              errorMsg="First Name must not be empty."
-            />
-            <Input
-              id="last-name"
-              label="Last Name"
-              type="text"
-              inputRequired
-              value={enteredLastName}
-              onChange={lastNameChangeHandler}
-              onBlur={lastNameBlurHandler}
-              inputHasError={lastNameHasError}
-              errorMsg="Last Name must not be empty."
-            />
-            <Input
-              id="birth-date"
-              label="Date of Birth"
-              type="date"
-              value={enteredDate}
-              onChange={dateChangeHandler}
-            />
+      <form onSubmit={formSubmissionHandler}>
+        <dir className="form-control__container">
+          <ImageUpload
+            className="form-control__image--upload"
+            inputRef={filePickerRef}
+            inputOnChange={filePickedHandler}
+            imgSrc={imagePreviewUrl}
+            buttonOnClick={pickImageHandler}
+            id="image"
+          />
+          <div className="form-control__input--holders">
+            <div className="form-control__left">
+              <Input
+                id="first-name"
+                label="First Name"
+                type="text"
+                inputRequired
+                value={enteredFirstName}
+                onChange={firstNameChangedHandler}
+                onBlur={firstNameBlurHandler}
+                inputHasError={firstNameHasError}
+                errorMsg="First Name must not be empty."
+              />
+              <Input
+                id="last-name"
+                label="Last Name"
+                type="text"
+                inputRequired
+                value={enteredLastName}
+                onChange={lastNameChangeHandler}
+                onBlur={lastNameBlurHandler}
+                inputHasError={lastNameHasError}
+                errorMsg="Last Name must not be empty."
+              />
+              <Input
+                id="birth-date"
+                label="Date of Birth"
+                type="date"
+                value={enteredDate}
+                onChange={dateChangeHandler}
+              />
+            </div>
+            <div className="form-control__right">
+              <Input
+                id="email"
+                label="Email"
+                type="email"
+                inputRequired
+                value={enteredEmail}
+                onChange={emailChangeHandler}
+                onBlur={emailBlurHandler}
+                inputHasError={emailHasError}
+                errorMsg="Invalid email Address."
+              />
+              <Input
+                id="phone"
+                label="Phone"
+                type="text"
+                inputRequired
+                value={enteredPhone}
+                onChange={phoneChangeHandler}
+                onBlur={phoneBlurHandler}
+                inputHasError={phoneHasError}
+                errorMsg="Enter a valid phone no. within 10 to 13 characters."
+              />
+              <Input
+                id="address"
+                label="Address"
+                type="text"
+                value={enteredAddress}
+                onChange={addressChangeHandler}
+              />
+            </div>
+            <Button
+              type="submit"
+              className="form-control__save--btn"
+              disabled={!formIsValid}
+            >
+              Save Contact
+            </Button>
           </div>
-          <div className="form-control__right">
-            <Input
-              id="email"
-              label="Email"
-              type="email"
-              inputRequired
-              value={enteredEmail}
-              onChange={emailChangeHandler}
-              onBlur={emailBlurHandler}
-              inputHasError={emailHasError}
-              errorMsg="Invalid email Address."
-            />
-            <Input
-              id="phone"
-              label="Phone"
-              type="text"
-              inputRequired
-              value={enteredPhone}
-              onChange={phoneChangeHandler}
-              onBlur={phoneBlurHandler}
-              inputHasError={phoneHasError}
-              errorMsg="Enter a valid phone no. within 10 to 13 characters."
-            />
-            <Input
-              id="address"
-              label="Address"
-              type="text"
-              value={enteredAddress}
-              onChange={addressChangeHandler}
-            />
-          </div>
-          <Button
-            type="submit"
-            className="form-control__save--btn"
-            disabled={!formIsValid}
-          >
-            Save Contact
-          </Button>
-        </div>
-      </dir>
-    </form>
+        </dir>
+      </form>
+    </React.Fragment>
   );
 };
 

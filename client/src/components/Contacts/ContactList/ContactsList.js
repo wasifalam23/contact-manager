@@ -9,16 +9,13 @@ const ContactsList = () => {
   const [hasDeleted, setHasDeleted] = useState(false);
   const contactsData = useSelector((state) => state.contact.contactData);
 
-  const contactDeleted = (isDeleted) => {
-    console.log(isDeleted);
-    if (isDeleted) setHasDeleted(true);
-  };
+  // const contactDeleted = (isDeleted) => {
+  //   console.log(isDeleted);
+  //   if (isDeleted) setHasDeleted(true);
+  // };
 
   return (
     <ul className="contact-list__container">
-      {hasDeleted && (
-        <ToastBar type="success" message="Contact is deleted successfully" />
-      )}
       {contactsData.map((contact) => {
         return (
           <ContactItem
@@ -32,7 +29,7 @@ const ContactsList = () => {
             address={contact.address}
             email={contact.email}
             phone={contact.phone}
-            onContactDelete={contactDeleted}
+            // onContactDelete={contactDeleted}
           />
         );
       })}

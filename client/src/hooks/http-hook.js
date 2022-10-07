@@ -23,6 +23,8 @@ const useHttp = () => {
 
       const data = await response.json();
 
+      applyData(data);
+
       if (requestConfig.method === 'POST' && data.status === 'success') {
         setPostReqSuccess(true);
       }
@@ -38,8 +40,6 @@ const useHttp = () => {
       if (data.status === 'fail') {
         throw new Error(data.message);
       }
-
-      applyData(data);
     } catch (err) {
       setIsError(err.message || 'Something went wrong!');
     }
@@ -47,10 +47,15 @@ const useHttp = () => {
     setIsLoading(false);
   }, []);
 
+  const resetError = () => {
+    setIsError(null);
+  };
+
   return {
     isLoading,
     sendRequest,
     isError,
+    resetError,
     postReqSuccess,
     patchReqSuccess,
     deleteReqSuccess,

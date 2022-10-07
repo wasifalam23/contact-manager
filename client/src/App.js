@@ -8,15 +8,21 @@ import AddContact from './pages/AddContact';
 import Contacts from './pages/Contacts';
 import LoadingBar from './utils/LoadingBar/LoadingBar';
 import useHttp from './hooks/http-hook';
+import ToastBar from './utils/ToastBar/ToastBar';
 
+let isInitial = true;
 const App = () => {
   const { sendRequest: fetchContacts, isLoading } = useHttp();
+  const { sendRequest: deleteContact, deleteReqSuccess: contactIsDeleted } =
+    useHttp();
+
   const dispatch = useDispatch();
   const reqChanged = useSelector((state) => state.contact.reqHasChanged);
+  const deleteId = useSelector((state) => state.contact.deleteContactId);
 
   useEffect(() => {
     const applyContacts = (data) => {
-      dispatch(contactActions.storeData({ contacts: data.data.contacts }));
+      dispatch(contactActions.storeData(data.data.contacts));
     };
 
     fetchContacts(
@@ -25,8 +31,31 @@ const App = () => {
     );
   }, [dispatch, fetchContacts, reqChanged]);
 
+  useEffect(() => {
+    if (isInitial) {
+      isInitial = false;
+      return;
+    }
+
+    const applyData = (data) => {
+      console.log(data);
+    };
+
+    console.log('app delete running');
+    deleteContact(
+      {
+        url: `http://localhost:3000/api/v1/contacts/${deleteId}`,
+        method: 'DELETE',
+      },
+      applyData
+    );
+  }, [deleteId, deleteContact]);
+
   return (
     <BrowserRouter>
+      {contactIsDeleted && (
+        <ToastBar type="success" message="contact is deleted" />
+      )}
       {isLoading && <LoadingBar />}
       <Header />
 

@@ -8,13 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Toastify = (props) => {
   const dispatch = useDispatch();
-  console.log('toastify running');
 
   useEffect(() => {
-    const toastOpenHandler = () => {
-      dispatch(contactActions.setReqHasChanged());
-    };
-
     if (props.type === 'error') {
       toast.error(props.message, {
         position: 'top-center',
@@ -22,8 +17,9 @@ const Toastify = (props) => {
     }
 
     if (props.type === 'success') {
+      dispatch(contactActions.setReqHasChanged());
+
       toast.success(props.message, {
-        onOpen: toastOpenHandler,
         position: 'top-center',
       });
     }
