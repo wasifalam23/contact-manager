@@ -72,6 +72,7 @@ const useForm = (validateValue) => {
     reset,
     file,
     previewUrl,
+    setPreviewUrl,
     fileIsValid,
     filePickerRef,
     filePickedHandler,

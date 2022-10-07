@@ -47,15 +47,10 @@ const useHttp = () => {
     setIsLoading(false);
   }, []);
 
-  const resetError = () => {
-    setIsError(null);
-  };
-
   return {
     isLoading,
     sendRequest,
     isError,
-    resetError,
     postReqSuccess,
     patchReqSuccess,
     deleteReqSuccess,

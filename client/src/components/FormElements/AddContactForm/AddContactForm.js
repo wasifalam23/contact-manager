@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
-import { useDispatch } from 'react-redux';
-import { contactActions } from '../../../store/contact-slice';
 import useForm from '../../../hooks/form-hook';
 import useHttp from '../../../hooks/http-hook';
 import ImageUpload from './../ImageUpload/ImageUpload';
@@ -26,7 +24,6 @@ const AddContactForm = () => {
     sendRequest: postData,
     postReqSuccess,
     isError: postReqHasError,
-    resetError: resetPostReqError,
   } = useHttp();
 
   const {
@@ -39,6 +36,7 @@ const AddContactForm = () => {
   const {
     file: imageFile,
     previewUrl: imagePreviewUrl,
+    setPreviewUrl: setImagePrevieUrl,
     fileIsValid: imageIsValid,
     filePickedHandler,
     pickImageHandler,
@@ -105,11 +103,12 @@ const AddContactForm = () => {
 
     console.log('form useEffect');
     const applyGetData = (data) => {
-      const { firstName, lastName, phone, email, dateOfBirth, address } =
+      const { photo, firstName, lastName, phone, email, dateOfBirth, address } =
         data.data.contact;
 
       const birthDate = moment(dateOfBirth).format('YYYY-MM-DD');
 
+      setImagePrevieUrl(`http://localhost:3000/contacts/${photo}`);
       setEnteredFirstName(firstName);
       setEnteredLastName(lastName);
       setEnteredPhone(phone);
@@ -126,6 +125,7 @@ const AddContactForm = () => {
     );
   }, [
     contactId,
+    setImagePrevieUrl,
     getData,
     setEnteredFirstName,
     setEnteredLastName,
