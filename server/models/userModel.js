@@ -3,6 +3,13 @@ const bcrypt = require('bcryptjs');
 const validator = require('validator');
 
 const UserSchema = new mongoose.Schema({
+  name: {
+    type: 'String',
+    trim: true,
+    required: [true, 'Please tell us your name'],
+    maxlength: [8, 'User name should not exceed 8 characters'],
+  },
+
   email: {
     type: 'String',
     required: [true, 'Please provide your email'],
@@ -28,6 +35,12 @@ const UserSchema = new mongoose.Schema({
       message: 'Passwords are not the same',
     },
   },
+});
+
+UserSchema.pre('save', function (next) {
+  this.name = this.name.charAt(0).toUpperCase() + this.name.slice(1);
+
+  next();
 });
 
 UserSchema.pre('save', async function (next) {

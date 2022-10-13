@@ -6,6 +6,7 @@ const AppError = require('../utils/appError');
 
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
+    name: req.body.name,
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
@@ -65,8 +66,6 @@ exports.protect = catchAsync(async (req, res, next) => {
     token = req.headers.authorization.split(' ')[1];
   }
 
-  console.log(token);
-
   if (!token) {
     return next(
       new AppError('You are not logged in! Please log in to get access', 401)
@@ -75,8 +74,6 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // Verification token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  console.log(decoded);
-
   // Check if user still exists
   const currentUser = await User.findById(decoded.id);
   if (!currentUser) {

@@ -5,21 +5,14 @@ const Contact = require('../models/contactModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
-// const multerStorage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, 'images/contacts');
-//   },
+const checkPermission = catchAsync(async (loggedInUserId, contactId, next) => {
+  const savedContact = await Contact.findById(contactId);
+  const creatorId = savedContact.creator.id;
 
-//   filename: (req, file, cb) => {
-//     const ext = file.mimetype.split('/')[1];
-
-//     const fileName = `contact-${Date.now()}-${Math.round(
-//       Math.random() * 1e9
-//     )}.${ext}`;
-
-//     cb(null, fileName);
-//   },
-// });
+  if (loggedInUserId !== creatorId) {
+    next(new AppError('You do not have permission to perform this action'));
+  }
+});
 
 const multerStorage = multer.memoryStorage();
 
@@ -51,20 +44,9 @@ exports.resizeContactPhoto = catchAsync(async (req, res, next) => {
   next();
 });
 
-exports.getAllContacts = catchAsync(async (req, res, next) => {
-  const contacts = await Contact.find();
-
-  res.status(200).json({
-    status: 'success',
-    results: contacts.length,
-    data: {
-      contacts,
-    },
-  });
-});
-
-exports.getContact = catchAsync(async (req, res, next) => {
-  const contact = await Contact.findById(req.params.id);
+exports.getContactByLoggedInUser = catchAsync(async (req, res, next) => {
+  const currentUser = req.user;
+  const contact = await Contact.find({ creator: currentUser });
 
   if (!contact) next(new AppError('No contact found with that ID', 404));
 
@@ -78,8 +60,7 @@ exports.getContact = catchAsync(async (req, res, next) => {
 
 exports.createContact = catchAsync(async (req, res, next) => {
   const imgFile = req.file ? req.file.filename : undefined;
-  console.log('Address:', req.body.address);
-  console.log('BirthDate:', req.body.dateOfBirth);
+  const creator = req.user.id;
 
   const newContact = await Contact.create({
     firstName: req.body.firstName,
@@ -89,7 +70,7 @@ exports.createContact = catchAsync(async (req, res, next) => {
     photo: imgFile,
     dateOfBirth: req.body.dateOfBirth,
     address: req.body.address,
-    creator: req.body.creator,
+    creator,
   });
 
   res.status(201).json({
@@ -101,6 +82,8 @@ exports.createContact = catchAsync(async (req, res, next) => {
 });
 
 exports.updateContact = catchAsync(async (req, res, next) => {
+  await checkPermission(req.user.id, req.params.id, next);
+
   const imgFile = req.file ? req.file.filename : undefined;
   const update = {
     firstName: req.body.firstName,
@@ -130,6 +113,8 @@ exports.updateContact = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteContact = catchAsync(async (req, res, next) => {
+  await checkPermission(req.user.id, req.params.id, next);
+
   const contact = await Contact.findByIdAndDelete(req.params.id);
 
   if (!contact) {

@@ -4,9 +4,11 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
+router.use(authController.protect);
+
 router
   .route('/')
-  .get(contactController.getAllContacts)
+  .get(contactController.getContactByLoggedInUser)
   .post(
     contactController.uploadContactPhoto,
     contactController.resizeContactPhoto,
@@ -15,7 +17,6 @@ router
 
 router
   .route('/:id')
-  .get(contactController.getContact)
   .patch(
     contactController.uploadContactPhoto,
     contactController.resizeContactPhoto,
