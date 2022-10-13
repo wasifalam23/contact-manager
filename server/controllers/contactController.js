@@ -89,6 +89,7 @@ exports.createContact = catchAsync(async (req, res, next) => {
     photo: imgFile,
     dateOfBirth: req.body.dateOfBirth,
     address: req.body.address,
+    creator: req.body.creator,
   });
 
   res.status(201).json({

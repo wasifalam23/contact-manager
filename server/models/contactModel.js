@@ -48,6 +48,12 @@ const contactSchema = new mongoose.Schema(
       maxLength: [25, 'Address field must be with a max. length of 25'],
       default: 'Not Available',
     },
+
+    creator: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'Contact must belong to an user'],
+    },
   },
   {
     toJSON: {
@@ -58,6 +64,12 @@ const contactSchema = new mongoose.Schema(
     },
   }
 );
+
+contactSchema.pre(/^find/, function (next) {
+  this.populate('creator');
+
+  next();
+});
 
 contactSchema.virtual('age').get(function () {
   const currentYear = new Date(Date.now()).getFullYear();
