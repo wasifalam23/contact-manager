@@ -5,14 +5,19 @@ const Contact = require('../models/contactModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
-const checkPermission = catchAsync(async (loggedInUserId, contactId, next) => {
-  const savedContact = await Contact.findById(contactId);
-  const creatorId = savedContact.creator.id;
+const checkPermission = async (loggedInUserId, contactId, next) => {
+  const contact = await Contact.findById(contactId);
 
-  if (loggedInUserId !== creatorId) {
-    next(new AppError('You do not have permission to perform this action'));
+  if (!contact) {
+    return next(new AppError('No contact found with that ID', 404));
   }
-});
+
+  const creatorId = contact.creator.id;
+  const permissionIsGranted =
+    loggedInUserId === creatorId ? contactId : undefined;
+
+  return permissionIsGranted;
+};
 
 const multerStorage = multer.memoryStorage();
 
@@ -82,7 +87,13 @@ exports.createContact = catchAsync(async (req, res, next) => {
 });
 
 exports.updateContact = catchAsync(async (req, res, next) => {
-  await checkPermission(req.user.id, req.params.id, next);
+  const contactId = await checkPermission(req.user.id, req.params.id, next);
+
+  if (!contactId) {
+    return next(
+      new AppError('You do not have permission to perform this action', 401)
+    );
+  }
 
   const imgFile = req.file ? req.file.filename : undefined;
   const update = {
@@ -95,14 +106,10 @@ exports.updateContact = catchAsync(async (req, res, next) => {
     address: req.body.address,
   };
 
-  const contact = await Contact.findByIdAndUpdate(req.params.id, update, {
+  const contact = await Contact.findByIdAndUpdate(contactId, update, {
     new: true,
     runValidators: true,
   });
-
-  if (!contact) {
-    return next(new AppError('No contact found with that ID', 404));
-  }
 
   res.status(200).json({
     status: 'success',
@@ -113,13 +120,15 @@ exports.updateContact = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteContact = catchAsync(async (req, res, next) => {
-  await checkPermission(req.user.id, req.params.id, next);
+  const contactId = await checkPermission(req.user.id, req.params.id, next);
 
-  const contact = await Contact.findByIdAndDelete(req.params.id);
-
-  if (!contact) {
-    return next(new AppError('No contact found with that ID', 404));
+  if (!contactId) {
+    return next(
+      new AppError('You do not have permission to perform this action', 401)
+    );
   }
+
+  await Contact.findByIdAndDelete(contactId);
 
   res.status(200).json({
     status: 'success',
