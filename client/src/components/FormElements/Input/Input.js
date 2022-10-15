@@ -10,16 +10,19 @@ const Input = (props) => {
 
   return (
     <div className={inputClass}>
-      <label className="input__label" htmlFor={props.id}>
-        {props.label}
-        {props.inputRequired && <span className="input__required">*</span>}
-      </label>
+      {props.label && (
+        <label className="input__label" htmlFor={props.id}>
+          {props.label}
+          {props.inputRequired && <span className="input__required">*</span>}
+        </label>
+      )}
       <input
         id={props.id}
         type={props.type}
         value={props.value}
         onChange={props.onChange}
         onBlur={props.onBlur}
+        placeholder={props.placeholder}
       />
       {props.inputHasError && (
         <p className="input__error--msg">

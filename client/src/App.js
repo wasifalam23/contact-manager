@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from './components/Header/Header';
 import AddContact from './pages/AddContact';
 import Contacts from './pages/Contacts';
+import AuthPage from './pages/AuthPage';
 import LoadingBar from './utils/LoadingBar/LoadingBar';
 import useHttp from './hooks/http-hook';
 import ToastBar from './utils/ToastBar/ToastBar';
@@ -61,6 +62,7 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<Contacts />} />
+        <Route path="/auth" element={<AuthPage />} />
         <Route path="/addContact" element={<AddContact />} />
         <Route path="/editContact/:id" element={<AddContact />} />
       </Routes>

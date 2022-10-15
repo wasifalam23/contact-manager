@@ -28,6 +28,10 @@
     font-size: 1.6rem;
   }
 
+  &__box input::placeholder {
+    font-size: 1.3rem;
+  }
+
   &__box input:focus {
     outline: none;
 

@@ -1,8 +1,9 @@
 @import '../../index.scss';
 
 .button {
-  padding: 1rem 1.6rem;
-  font-size: 1.5rem;
+  font-family: $font-family-poppins;
+  padding: 0.8rem 1.6rem;
+  font-size: 1.4rem;
   border: none;
   background-color: $color-pink-primary;
   color: $color-white;

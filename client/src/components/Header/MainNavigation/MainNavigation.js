@@ -7,6 +7,11 @@ const MainNavigation = () => {
     <nav className="main-navigation">
       <ul className="main-navigation__list">
         <li className="main-navigation__list--item">
+          <Link className="main-navigation__link" to="/auth">
+            Login
+          </Link>
+        </li>
+        <li className="main-navigation__list--item">
           <Link className="main-navigation__link" to="/">
             Contacts
           </Link>

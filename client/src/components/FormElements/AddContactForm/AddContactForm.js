@@ -209,7 +209,7 @@ const AddContactForm = () => {
         <ToastBar type="success" message="contact is updated successfully" />
       )}
       <form onSubmit={formSubmissionHandler}>
-        <dir className="form-control__container">
+        <div className="form-control__container">
           <ImageUpload
             className="form-control__image--upload"
             inputRef={filePickerRef}
@@ -289,7 +289,7 @@ const AddContactForm = () => {
               Save Contact
             </Button>
           </div>
-        </dir>
+        </div>
       </form>
     </React.Fragment>
   );
