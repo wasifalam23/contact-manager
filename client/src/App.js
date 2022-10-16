@@ -11,8 +11,6 @@ import AuthPage from './pages/AuthPage';
 import LoadingBar from './utils/LoadingBar/LoadingBar';
 import useHttp from './hooks/http-hook';
 
-let isInitial = true;
-
 const App = () => {
   const { sendRequest: fetchContacts, isLoading } = useHttp();
 
@@ -24,18 +22,13 @@ const App = () => {
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    console.log('stayLoggedin running');
     dispatch(authActions.stayLoggedIn());
   }, [dispatch]);
 
   useEffect(() => {
-    if (isInitial) {
-      isInitial = false;
-      return;
-    }
+    if (!isLoggedIn) return;
 
     const applyContacts = (data) => {
-      console.log(data);
       dispatch(contactActions.storeData(data.data.contacts));
     };
 
@@ -48,7 +41,7 @@ const App = () => {
       },
       applyContacts
     );
-  }, [dispatch, fetchContacts, reqChanged, token]);
+  }, [dispatch, fetchContacts, reqChanged, token, isLoggedIn]);
 
   return (
     <BrowserRouter>

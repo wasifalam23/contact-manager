@@ -7,6 +7,7 @@ import Input from '../../Input/Input';
 import Button from '../../../../utils/Button/Button';
 import useForm from '../../../../hooks/form-hook';
 import useHttp from '../../../../hooks/http-hook';
+import ToastBar from '../../../../utils/ToastBar/ToastBar';
 
 const nameValidate = (value) => value.trim() !== '';
 const emailValidate = (value) => value.includes('@');
@@ -15,7 +16,7 @@ const passwordValidate = (value) => value.trim().length >= 8;
 const SignUp = () => {
   const dispatch = useDispatch();
 
-  const { sendRequest: createUser } = useHttp();
+  const { sendRequest: createUser, isError: signUpHasError } = useHttp();
   const navigate = useNavigate();
 
   const {
@@ -54,11 +55,22 @@ const SignUp = () => {
     reset: confirmPasswordReset,
   } = useForm(passwordValidate);
 
+  let formIsValid = false;
+  if (
+    nameIsValid &&
+    emailIsValid &&
+    passwordIsValid &&
+    confirmPasswordIsValid
+  ) {
+    formIsValid = true;
+  }
+
   const formSubmissionHandler = (e) => {
     e.preventDefault();
 
+    if (!formIsValid) return;
+
     const signUpData = (data) => {
-      console.log(data);
       if (data.status === 'success') {
         dispatch(authActions.login(data.token));
         navigate('/', { replace: true });
@@ -85,6 +97,7 @@ const SignUp = () => {
 
   return (
     <form onSubmit={formSubmissionHandler}>
+      {signUpHasError && <ToastBar type="error" message={signUpHasError} />}
       <div className="auth-form__form--control">
         <Input
           placeholder="Name"

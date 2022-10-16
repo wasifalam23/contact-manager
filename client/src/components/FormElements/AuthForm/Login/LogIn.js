@@ -7,6 +7,7 @@ import Input from '../../Input/Input';
 import Button from '../../../../utils/Button/Button';
 import useForm from '../../../../hooks/form-hook';
 import useHttp from '../../../../hooks/http-hook';
+import ToastBar from '../../../../utils/ToastBar/ToastBar';
 
 const emailValidate = (value) => value.includes('@');
 const passwordValidate = (value) => value.trim().length >= 8;
@@ -15,7 +16,7 @@ const LogIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { sendRequest: loginUser } = useHttp();
+  const { sendRequest: loginUser, isError: loginHasError } = useHttp();
 
   const {
     value: enteredEmail,
@@ -35,11 +36,17 @@ const LogIn = () => {
     reset: passwordReset,
   } = useForm(passwordValidate);
 
+  let formIsValid = false;
+  if (emailIsValid && passwordIsValid) {
+    formIsValid = true;
+  }
+
   const formSubmissionHandler = (e) => {
     e.preventDefault();
 
+    if (!formIsValid) return;
+
     const loggedInData = (data) => {
-      console.log(data);
       if (data.status === 'success') {
         dispatch(authActions.login(data.token));
         navigate('/', { replace: true });
@@ -64,6 +71,7 @@ const LogIn = () => {
 
   return (
     <form onSubmit={formSubmissionHandler}>
+      {loginHasError && <ToastBar type="error" message={loginHasError} />}
       <div className="auth-form__form--control">
         <Input
           placeholder="Email"

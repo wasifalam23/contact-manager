@@ -1,28 +1,28 @@
 import React, { useEffect } from 'react';
 
 import useHttp from '../../../hooks/http-hook';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import ContactItem from '../ContactItem/ContactItem';
 import ToastBar from '../../../utils/ToastBar/ToastBar';
 import './ContactList.scss';
+import { contactActions } from '../../../store/contact-slice';
 
-let isInitial = true;
 const ContactsList = () => {
+  const dispatch = useDispatch();
   const contactsData = useSelector((state) => state.contact.contactData);
   const deleteId = useSelector((state) => state.contact.deleteContactId);
-  const token = useSelector((state) => state.auth.token);
+  const token = localStorage.getItem('token');
 
   const { sendRequest: deleteContact, deleteReqSuccess: contactIsDeleted } =
     useHttp();
 
   useEffect(() => {
-    if (isInitial) {
-      isInitial = false;
-      return;
-    }
+    if (!deleteId) return;
 
     const applyData = (data) => {
-      console.log(data);
+      if (data.status === 'success') {
+        dispatch(contactActions.setDeleteContactId(null));
+      }
     };
 
     console.log('app delete running');
@@ -36,7 +36,7 @@ const ContactsList = () => {
       },
       applyData
     );
-  }, [deleteId, deleteContact, token]);
+  }, [dispatch, deleteId, deleteContact, token]);
 
   return (
     <React.Fragment>
