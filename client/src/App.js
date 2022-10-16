@@ -10,21 +10,17 @@ import Contacts from './pages/Contacts';
 import AuthPage from './pages/AuthPage';
 import LoadingBar from './utils/LoadingBar/LoadingBar';
 import useHttp from './hooks/http-hook';
-import ToastBar from './utils/ToastBar/ToastBar';
 
-let isgetInitial = true;
-let isdeleteInitial = true;
+let isInitial = true;
+
 const App = () => {
   const { sendRequest: fetchContacts, isLoading } = useHttp();
-  const { sendRequest: deleteContact, deleteReqSuccess: contactIsDeleted } =
-    useHttp();
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const token = useSelector((state) => state.auth.token);
 
   const dispatch = useDispatch();
   const reqChanged = useSelector((state) => state.contact.reqHasChanged);
-  const deleteId = useSelector((state) => state.contact.deleteContactId);
 
   useEffect(() => {
     console.log('stayLoggedin running');
@@ -32,8 +28,8 @@ const App = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (isgetInitial) {
-      isgetInitial = false;
+    if (isInitial) {
+      isInitial = false;
       return;
     }
 
@@ -53,34 +49,8 @@ const App = () => {
     );
   }, [dispatch, fetchContacts, reqChanged, token]);
 
-  useEffect(() => {
-    if (isdeleteInitial) {
-      isdeleteInitial = false;
-      return;
-    }
-
-    const applyData = (data) => {
-      console.log(data);
-    };
-
-    console.log('app delete running');
-    deleteContact(
-      {
-        url: `http://localhost:3000/api/v1/contacts/${deleteId}`,
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-      applyData
-    );
-  }, [deleteId, deleteContact, token]);
-
   return (
     <BrowserRouter>
-      {contactIsDeleted && (
-        <ToastBar type="success" message="contact is deleted" />
-      )}
       {isLoading && <LoadingBar />}
       <Header />
 

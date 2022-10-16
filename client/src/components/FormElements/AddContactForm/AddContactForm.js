@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import moment from 'moment';
 import useForm from '../../../hooks/form-hook';
 import useUpload from '../../../hooks/upload-hook';
@@ -16,6 +17,8 @@ const phoneValidate = (value) =>
   value.trim().length >= 10 && value.trim().length <= 13;
 
 const AddContactForm = () => {
+  const token = useSelector((state) => state.auth.token);
+
   const { id: contactId } = useParams();
 
   // Http custom hook
@@ -121,6 +124,9 @@ const AddContactForm = () => {
     getData(
       {
         url: `http://localhost:3000/api/v1/contacts/${contactId}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
       applyGetData
     );
@@ -134,6 +140,7 @@ const AddContactForm = () => {
     setEnteredEmail,
     setEnteredDate,
     setEnteredAddress,
+    token,
   ]);
 
   let formIsValid = false;
@@ -181,6 +188,9 @@ const AddContactForm = () => {
           url: `http://localhost:3000/api/v1/contacts/${contactId}`,
           method: 'PATCH',
           body: formData,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
         receiveData
       );
@@ -193,6 +203,9 @@ const AddContactForm = () => {
         url: 'http://localhost:3000/api/v1/contacts',
         method: 'POST',
         body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
       receiveData
     );

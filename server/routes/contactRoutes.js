@@ -8,7 +8,7 @@ router.use(authController.protect);
 
 router
   .route('/')
-  .get(contactController.getContactByLoggedInUser)
+  .get(contactController.getContactsByLoggedInUser)
   .post(
     contactController.uploadContactPhoto,
     contactController.resizeContactPhoto,
@@ -17,6 +17,7 @@ router
 
 router
   .route('/:id')
+  .get(contactController.getContactById)
   .patch(
     contactController.uploadContactPhoto,
     contactController.resizeContactPhoto,

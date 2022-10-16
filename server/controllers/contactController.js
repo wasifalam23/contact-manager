@@ -49,7 +49,7 @@ exports.resizeContactPhoto = catchAsync(async (req, res, next) => {
   next();
 });
 
-exports.getContactByLoggedInUser = catchAsync(async (req, res, next) => {
+exports.getContactsByLoggedInUser = catchAsync(async (req, res, next) => {
   const currentUser = req.user;
   const contacts = await Contact.find({ creator: currentUser });
 
@@ -59,6 +59,27 @@ exports.getContactByLoggedInUser = catchAsync(async (req, res, next) => {
     status: 'success',
     data: {
       contacts,
+    },
+  });
+});
+
+exports.getContactById = catchAsync(async (req, res, next) => {
+  const contactId = await checkPermission(req.user.id, req.params.id, next);
+
+  if (!contactId) {
+    return next(
+      new AppError('You do not have permission to perform this action', 401)
+    );
+  }
+
+  const contact = await Contact.findById(contactId);
+
+  if (!contact) next(new AppError('No contact found with that ID', 404));
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      contact,
     },
   });
 });
