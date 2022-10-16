@@ -17,10 +17,11 @@ const App = () => {
   const { sendRequest: fetchContacts, isLoading } = useHttp();
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const token = useSelector((state) => state.auth.token);
 
   const dispatch = useDispatch();
   const reqChanged = useSelector((state) => state.contact.reqHasChanged);
+
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     console.log('stayLoggedin running');
@@ -53,7 +54,6 @@ const App = () => {
     <BrowserRouter>
       {isLoading && <LoadingBar />}
       <Header />
-
       <Routes>
         {isLoggedIn && <Route path="/" element={<Contacts />} />}
         {isLoggedIn && <Route path="/addContact" element={<AddContact />} />}

@@ -17,7 +17,7 @@ const phoneValidate = (value) =>
   value.trim().length >= 10 && value.trim().length <= 13;
 
 const AddContactForm = () => {
-  const token = useSelector((state) => state.auth.token);
+  const token = localStorage.getItem('token');
 
   const { id: contactId } = useParams();
 
@@ -105,7 +105,6 @@ const AddContactForm = () => {
   useEffect(() => {
     if (!contactId) return;
 
-    console.log('form useEffect');
     const applyGetData = (data) => {
       const { photo, firstName, lastName, phone, email, dateOfBirth, address } =
         data.data.contact;
