@@ -51,14 +51,14 @@ exports.resizeContactPhoto = catchAsync(async (req, res, next) => {
 
 exports.getContactByLoggedInUser = catchAsync(async (req, res, next) => {
   const currentUser = req.user;
-  const contact = await Contact.find({ creator: currentUser });
+  const contacts = await Contact.find({ creator: currentUser });
 
-  if (!contact) next(new AppError('No contact found with that ID', 404));
+  if (!contacts) next(new AppError('No contact found with that ID', 404));
 
   res.status(200).json({
     status: 'success',
     data: {
-      contact,
+      contacts,
     },
   });
 });
