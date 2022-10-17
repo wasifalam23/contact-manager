@@ -55,9 +55,10 @@
 
   &__btn--cancel,
   &__btn--confirm {
-    padding-top: 0.9rem;
-    padding-bottom: 0.9rem;
-    font-size: 1.3rem;
+    font-family: $font-family-poppins;
+    font-weight: $font-semibold;
+    padding: 0.6rem 1rem;
+    font-size: 1.2rem;
   }
 
   &__btn--cancel {

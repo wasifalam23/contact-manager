@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isLoggedIn: false,
+  loggedInSuccess: false,
+  signUpSuccess: false,
 };
 
 const authSlice = createSlice({
@@ -23,6 +25,14 @@ const authSlice = createSlice({
     logout(state) {
       localStorage.removeItem('token');
       state.isLoggedIn = false;
+    },
+
+    checkLogInSuccess(state, action) {
+      state.loggedInSuccess = action.payload;
+    },
+
+    checkSignUpSuccess(state, action) {
+      state.signUpSuccess = action.payload;
     },
   },
 });

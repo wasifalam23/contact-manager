@@ -55,8 +55,8 @@ const ContactItem = (props) => {
         <ConfirmModal
           title="Are you sure?"
           message="Do you really want to delete this contact?"
-          onCancel={confirmModalCancelHandler}
           onConfirm={confirmModalConfirmHandler}
+          onCancel={confirmModalCancelHandler}
         />
       )}
       <div className="contact-item__container">

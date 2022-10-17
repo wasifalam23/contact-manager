@@ -48,6 +48,7 @@ const LogIn = () => {
 
     const loggedInData = (data) => {
       if (data.status === 'success') {
+        dispatch(authActions.checkLogInSuccess(true));
         dispatch(authActions.login(data.token));
         navigate('/', { replace: true });
       }

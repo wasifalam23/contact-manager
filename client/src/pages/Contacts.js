@@ -18,6 +18,11 @@ const Contacts = () => {
       title="Contacts"
       otherEl={countactCount}
     >
+      {contacts.length === 0 && (
+        <h2 className="contact__no-contact--text">
+          You currently dont't have any contact saved
+        </h2>
+      )}
       <ContactsList />
     </Container>
   );

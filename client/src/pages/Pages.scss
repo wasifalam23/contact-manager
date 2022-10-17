@@ -9,6 +9,14 @@
     font-size: 1.4rem;
     font-weight: $font-medium;
   }
+
+  &__no-contact--text {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: $font-regular;
+    margin-top: 10rem;
+    color: $color-black;
+  }
 }
 
 .add-contact__container {

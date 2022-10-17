@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Toastify = (props) => {
+  console.log('toastify');
   const dispatch = useDispatch();
 
   useEffect(() => {

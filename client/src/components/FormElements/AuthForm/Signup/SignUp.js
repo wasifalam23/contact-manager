@@ -72,6 +72,7 @@ const SignUp = () => {
 
     const signUpData = (data) => {
       if (data.status === 'success') {
+        dispatch(authActions.checkSignUpSuccess(true));
         dispatch(authActions.login(data.token));
         navigate('/', { replace: true });
       }
