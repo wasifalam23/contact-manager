@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { contactActions } from '../../store/contact-slice';
 import { createPortal } from 'react-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast, Slide } from 'react-toastify';
 
+import './ToastBar.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Toastify = (props) => {
@@ -28,7 +29,11 @@ const Toastify = (props) => {
 
   return (
     <div>
-      <ToastContainer position="top-center" autoClose={4000} />
+      <ToastContainer
+        position="top-center"
+        autoClose={4000}
+        transition={Slide}
+      />
     </div>
   );
 };

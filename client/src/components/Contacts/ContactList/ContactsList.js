@@ -41,7 +41,7 @@ const ContactsList = () => {
   return (
     <React.Fragment>
       {contactIsDeleted && (
-        <ToastBar type="success" message="contact is deleted" />
+        <ToastBar type="success" message="Contact is deleted successfully" />
       )}
       <ul className="contact-list__container">
         {contactsData.map((contact) => {

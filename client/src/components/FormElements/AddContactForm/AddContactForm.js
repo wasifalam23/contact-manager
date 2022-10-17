@@ -215,10 +215,10 @@ const AddContactForm = () => {
       {postReqHasError && <ToastBar type="error" message={postReqHasError} />}
       {patchReqHasError && <ToastBar type="error" message={patchReqHasError} />}
       {postReqSuccess && (
-        <ToastBar type="success" message="contact is added successfully" />
+        <ToastBar type="success" message="Contact is added successfully" />
       )}
       {patchReqSuccess && (
-        <ToastBar type="success" message="contact is updated successfully" />
+        <ToastBar type="success" message="Contact is updated successfully" />
       )}
       <form onSubmit={formSubmissionHandler}>
         <div className="form-control__container">
