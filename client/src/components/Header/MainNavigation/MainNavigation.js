@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { authActions } from '../../../store/auth-slice';
 
-import { Link } from 'react-router-dom';
-import './MainNavigation.scss';
 import ConfirmModal from '../../../utils/ConfirmModal/ConfirmModal';
+import './MainNavigation.scss';
 
 const MainNavigation = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);

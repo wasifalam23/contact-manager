@@ -8,16 +8,15 @@ import Input from '../../Input/Input';
 import Button from '../../../../utils/Button/Button';
 import useForm from '../../../../hooks/form-hook';
 import useHttp from '../../../../hooks/http-hook';
-import ToastBar from '../../../../utils/ToastBar/ToastBar';
 
 const nameValidate = (value) => value.trim() !== '';
 const emailValidate = (value) => value.includes('@');
 const passwordValidate = (value) => value.trim().length >= 8;
 
 const SignUp = () => {
-  const dispatch = useDispatch();
-
   const { sendRequest: createUser } = useHttp();
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const {

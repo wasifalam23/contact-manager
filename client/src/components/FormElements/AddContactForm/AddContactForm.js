@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { contactActions } from '../../../store/contact-slice';
 import { toast } from 'react-toastify';
 import moment from 'moment';
+
 import useForm from '../../../hooks/form-hook';
 import useUpload from '../../../hooks/upload-hook';
 import useHttp from '../../../hooks/http-hook';
 import ImageUpload from './../ImageUpload/ImageUpload';
 import Input from './../Input/Input';
-import './AddContactForm.scss';
-import { useParams } from 'react-router-dom';
 import Button from '../../../utils/Button/Button';
-import ToastBar from '../../../utils/ToastBar/ToastBar';
+import './AddContactForm.scss';
 
 const textValidate = (value) => value.trim() !== '';
 const emailValidate = (value) => value.includes('@');
@@ -19,12 +19,6 @@ const phoneValidate = (value) =>
   value.trim().length >= 10 && value.trim().length <= 13;
 
 const AddContactForm = () => {
-  const token = localStorage.getItem('token');
-
-  const { id: contactId } = useParams();
-
-  const dispatch = useDispatch();
-
   // Http custom hook
   const { sendRequest: getData } = useHttp();
   const { sendRequest: postData } = useHttp();
@@ -95,6 +89,11 @@ const AddContactForm = () => {
     valueChangeHandler: addressChangeHandler,
     reset: addressReset,
   } = useForm();
+
+  const dispatch = useDispatch();
+  const { id: contactId } = useParams();
+
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     if (!contactId) return;
@@ -167,10 +166,6 @@ const AddContactForm = () => {
     formData.append('address', enteredAddress);
     formData.append('phone', enteredPhone);
     formData.append('email', enteredEmail);
-
-    // for (const values of formData.values()) {
-    //   console.log(values);
-    // }
 
     const receivedPatchData = (data) => {
       if (data.status === 'success') {

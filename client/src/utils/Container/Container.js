@@ -1,6 +1,5 @@
 import React from 'react';
 import './Container.scss';
-import Button from '../Button/Button';
 
 const Container = (props) => {
   return (

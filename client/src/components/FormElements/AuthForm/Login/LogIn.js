@@ -1,23 +1,22 @@
 import React from 'react';
-
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { authActions } from '../../../../store/auth-slice';
-import Input from '../../Input/Input';
-import Button from '../../../../utils/Button/Button';
+import { toast } from 'react-toastify';
+
 import useForm from '../../../../hooks/form-hook';
 import useHttp from '../../../../hooks/http-hook';
-import ToastBar from '../../../../utils/ToastBar/ToastBar';
+import Input from '../../Input/Input';
+import Button from '../../../../utils/Button/Button';
 
 const emailValidate = (value) => value.includes('@');
 const passwordValidate = (value) => value.trim().length >= 8;
 
 const LogIn = () => {
+  const { sendRequest: loginUser } = useHttp();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const { sendRequest: loginUser } = useHttp();
 
   const {
     value: enteredEmail,

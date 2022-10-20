@@ -1,10 +1,9 @@
 import React from 'react';
-
 import { createPortal } from 'react-dom';
 import { ToastContainer, Slide } from 'react-toastify';
 
-import './ToastBar.scss';
 import 'react-toastify/dist/ReactToastify.css';
+import './ToastBar.scss';
 
 const ToastBar = (props) => {
   return (

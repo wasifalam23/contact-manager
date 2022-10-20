@@ -1,19 +1,22 @@
 import React, { useEffect } from 'react';
 
-import useHttp from '../../../hooks/http-hook';
 import { useSelector, useDispatch } from 'react-redux';
-import ContactItem from '../ContactItem/ContactItem';
-import { toast } from 'react-toastify';
-import './ContactList.scss';
 import { contactActions } from '../../../store/contact-slice';
+import { toast } from 'react-toastify';
+
+import useHttp from '../../../hooks/http-hook';
+import ContactItem from '../ContactItem/ContactItem';
+import './ContactList.scss';
 
 const ContactsList = () => {
+  const { sendRequest: deleteContact } = useHttp();
+
   const dispatch = useDispatch();
+
   const contactsData = useSelector((state) => state.contact.contactData);
   const deleteId = useSelector((state) => state.contact.deleteContactId);
-  const token = localStorage.getItem('token');
 
-  const { sendRequest: deleteContact } = useHttp();
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     if (!deleteId) return;

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { contactActions } from '../../../store/contact-slice';
-import ConfirmModal from '../../../utils/ConfirmModal/ConfirmModal';
-import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHome,
   faEnvelope,
@@ -12,15 +12,14 @@ import {
   faTrash,
   faUserAlt,
 } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ConfirmModal from '../../../utils/ConfirmModal/ConfirmModal';
 
 import './ContactItem.scss';
 
 const ContactItem = (props) => {
-  const dispatch = useDispatch();
-
   const [showConfirmModal, setShowConfirmModal] = useState();
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const editContactHandler = () => {

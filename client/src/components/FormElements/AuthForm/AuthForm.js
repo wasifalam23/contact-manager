@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import './AuthForm.scss';
 
 import SignUp from './Signup/SignUp';
 import LogIn from './Login/LogIn.js';
+import './AuthForm.scss';
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);

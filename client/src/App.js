@@ -1,23 +1,23 @@
 import React, { useEffect } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { contactActions } from './store/contact-slice';
 import { authActions } from './store/auth-slice';
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Header from './components/Header/Header';
-import AddContact from './pages/AddContact';
-import Contacts from './pages/Contacts';
-import AuthPage from './pages/AuthPage';
-import LoadingBar from './utils/LoadingBar/LoadingBar';
 import useHttp from './hooks/http-hook';
+import AuthPage from './pages/AuthPage';
+import Header from './components/Header/Header';
+import Contacts from './pages/Contacts';
+import AddContact from './pages/AddContact';
+import LoadingBar from './utils/LoadingBar/LoadingBar';
 import ToastBar from './utils/ToastBar/ToastBar';
 
 const App = () => {
   const { sendRequest: fetchContacts, isLoading } = useHttp();
 
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-
   const dispatch = useDispatch();
+
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const reqChanged = useSelector((state) => state.contact.reqHasChanged);
 
   const token = localStorage.getItem('token');
