@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { contactActions } from '../../../store/contact-slice';
+import { toast } from 'react-toastify';
 import moment from 'moment';
 import useForm from '../../../hooks/form-hook';
 import useUpload from '../../../hooks/upload-hook';
@@ -21,20 +23,12 @@ const AddContactForm = () => {
 
   const { id: contactId } = useParams();
 
+  const dispatch = useDispatch();
+
   // Http custom hook
   const { sendRequest: getData } = useHttp();
-
-  const {
-    sendRequest: postData,
-    postReqSuccess,
-    isError: postReqHasError,
-  } = useHttp();
-
-  const {
-    sendRequest: patchData,
-    patchReqSuccess,
-    isError: patchReqHasError,
-  } = useHttp();
+  const { sendRequest: postData } = useHttp();
+  const { sendRequest: patchData } = useHttp();
 
   // Form custom hook
   const {
@@ -147,6 +141,16 @@ const AddContactForm = () => {
     formIsValid = true;
   }
 
+  const resetForm = () => {
+    resetImage();
+    firstNameReset();
+    lastNameReset();
+    emailReset();
+    dateReset();
+    phoneReset();
+    addressReset();
+  };
+
   const formSubmissionHandler = (e) => {
     e.preventDefault();
 
@@ -168,16 +172,13 @@ const AddContactForm = () => {
     //   console.log(values);
     // }
 
-    const receiveData = (data) => {
-      console.log(data);
+    const receivedPatchData = (data) => {
       if (data.status === 'success') {
-        resetImage();
-        firstNameReset();
-        lastNameReset();
-        emailReset();
-        dateReset();
-        phoneReset();
-        addressReset();
+        dispatch(contactActions.setReqHasChanged());
+        toast.success('Contact is updated successfully');
+        resetForm();
+      } else if (data.status === 'fail') {
+        toast.error(data.message);
       }
     };
 
@@ -191,11 +192,21 @@ const AddContactForm = () => {
             Authorization: `Bearer ${token}`,
           },
         },
-        receiveData
+        receivedPatchData
       );
 
       return;
     }
+
+    const receivedPostData = (data) => {
+      if (data.status === 'success') {
+        dispatch(contactActions.setReqHasChanged());
+        toast.success('Contact is added successfully');
+        resetForm();
+      } else if (data.status === 'fail') {
+        toast.error(data.message);
+      }
+    };
 
     postData(
       {
@@ -206,20 +217,13 @@ const AddContactForm = () => {
           Authorization: `Bearer ${token}`,
         },
       },
-      receiveData
+      receivedPostData
     );
   };
 
   return (
     <React.Fragment>
-      {postReqHasError && <ToastBar type="error" message={postReqHasError} />}
-      {patchReqHasError && <ToastBar type="error" message={patchReqHasError} />}
-      {postReqSuccess && (
-        <ToastBar type="success" message="Contact is added successfully" />
-      )}
-      {patchReqSuccess && (
-        <ToastBar type="success" message="Contact is updated successfully" />
-      )}
+      <ToastBar />
       <form onSubmit={formSubmissionHandler}>
         <div className="form-control__container">
           <ImageUpload
