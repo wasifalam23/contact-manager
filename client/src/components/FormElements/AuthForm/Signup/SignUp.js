@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { authActions } from '../../../../store/auth-slice';
@@ -16,7 +17,7 @@ const passwordValidate = (value) => value.trim().length >= 8;
 const SignUp = () => {
   const dispatch = useDispatch();
 
-  const { sendRequest: createUser, isError: signUpHasError } = useHttp();
+  const { sendRequest: createUser } = useHttp();
   const navigate = useNavigate();
 
   const {
@@ -72,9 +73,11 @@ const SignUp = () => {
 
     const signUpData = (data) => {
       if (data.status === 'success') {
-        dispatch(authActions.checkSignUpSuccess(true));
+        toast.success('You have successfully signed up!');
         dispatch(authActions.login(data.token));
         navigate('/', { replace: true });
+      } else if (data.status === 'fail') {
+        toast.error(data.message);
       }
     };
 
@@ -98,7 +101,6 @@ const SignUp = () => {
 
   return (
     <form onSubmit={formSubmissionHandler}>
-      {signUpHasError && <ToastBar type="error" message={signUpHasError} />}
       <div className="auth-form__form--control">
         <Input
           placeholder="Name"

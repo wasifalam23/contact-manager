@@ -223,7 +223,6 @@ const AddContactForm = () => {
 
   return (
     <React.Fragment>
-      <ToastBar />
       <form onSubmit={formSubmissionHandler}>
         <div className="form-control__container">
           <ImageUpload

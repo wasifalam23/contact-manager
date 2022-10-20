@@ -16,9 +16,6 @@ const App = () => {
   const { sendRequest: fetchContacts, isLoading } = useHttp();
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const signUpSuccess = useSelector((state) => state.auth.signUpSuccess);
-
-  const loggedInSuccess = useSelector((state) => state.auth.loggedInSuccess);
 
   const dispatch = useDispatch();
   const reqChanged = useSelector((state) => state.contact.reqHasChanged);
@@ -50,12 +47,7 @@ const App = () => {
   return (
     <BrowserRouter>
       {isLoading && <LoadingBar />}
-      {loggedInSuccess && (
-        <ToastBar type="success" message="You have successfully logged in" />
-      )}
-      {signUpSuccess && (
-        <ToastBar type="success" message="You have successfully signed up" />
-      )}
+      <ToastBar />
       <Header />
       <Routes>
         {isLoggedIn && <Route path="/" element={<Contacts />} />}
