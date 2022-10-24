@@ -60,7 +60,7 @@ module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
-  if (req.file.filename) {
+  if (req.file && req.file.filename) {
     fs.unlink(
       path.join(__dirname, `../images/contacts/${req.file.filename}`),
       (err) => {
