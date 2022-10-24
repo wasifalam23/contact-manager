@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { contactActions } from '../../../store/contact-slice';
 import { authActions } from '../../../store/auth-slice';
 
 import ConfirmModal from '../../../utils/ConfirmModal/ConfirmModal';
@@ -19,6 +20,7 @@ const MainNavigation = () => {
 
   const logoutModalConfrimHandler = () => {
     dispatch(authActions.logout());
+    dispatch(contactActions.storeData([]));
     setShowLogoutModal(false);
   };
 

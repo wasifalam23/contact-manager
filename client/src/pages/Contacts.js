@@ -20,7 +20,7 @@ const Contacts = () => {
     >
       {contacts.length === 0 && (
         <h2 className="contact__no-contact--text">
-          You currently dont't have any contact saved
+          You currently don't have any contact saved
         </h2>
       )}
       <ContactsList />
